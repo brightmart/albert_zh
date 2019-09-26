@@ -43,11 +43,11 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 -----------------------------------------------
 1、albert_base, 参数量12M, 层数12，10月5号
 
-2、albert_large, 参数量18M, 层数24，10月5号
+2、albert_large, 参数量18M, 层数24，10月13号
 
-3、albert_xlarge, 参数量59M, 层数24，10月6号（体验版）
+3、albert_xlarge, 参数量59M, 层数24，10月6号
 
-4、albert_xxlarge, 参数量233M, 层数12，10月13号
+4、albert_xxlarge, 参数量233M, 层数12，10月7号（效果最佳的模型）
 
 训练语料
 -----------------------------------------------
@@ -64,13 +64,13 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 
 Reference
 -----------------------------------------------
-<a href="https://openreview.net/pdf?id=H1eA7AEtvS">ALBERT: A Lite BERT For Self-Supervised Learning Of Language Representations</a>
+1、<a href="https://openreview.net/pdf?id=H1eA7AEtvS">ALBERT: A Lite BERT For Self-Supervised Learning Of Language Representations</a>
 
-<a href="http://baijiahao.baidu.com/s?id=1645712785366950083&wfr=spider&for=pc">预训练小模型也能拿下13项NLP任务，ALBERT三大改造登顶GLUE基准</a>
+2、<a href="http://baijiahao.baidu.com/s?id=1645712785366950083&wfr=spider&for=pc">预训练小模型也能拿下13项NLP任务，ALBERT三大改造登顶GLUE基准</a>
 
-<a href="https://arxiv.org/pdf/1810.04805.pdf">BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding</a>
+3、<a href="https://arxiv.org/pdf/1810.04805.pdf">BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding</a>
 
-<a href="https://arxiv.org/abs/1907.10529">SpanBERT: Improving Pre-training by Representing and Predicting Spans</a>
+4、<a href="https://arxiv.org/abs/1907.10529">SpanBERT: Improving Pre-training by Representing and Predicting Spans</a>
 
 
 
