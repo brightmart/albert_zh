@@ -54,13 +54,13 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 40g中文语料，超过100亿汉字，包括多个百科、新闻、互动社区、小说、评论。
 
 模型性能与对比
-----------------------------------------------
-<img src="https://github.com/brightmart/albert_zh/blob/master/resources/Ralbert_configuration.jpeg"  width="70%" height="60%" />
+-----------------------------------------------       
+<img src="https://github.com/brightmart/albert_zh/blob/master/resources/albert_performance.jpeg"  width="80%" height="40%" />
 
 
 模型参数和配置
 -----------------------------------------------
-<img src="https://github.com/brightmart/albert_zh/blob/master/resources/Ralbert_configuration.jpeg"  width="70%" height="60%" />
+<img src="https://github.com/brightmart/albert_zh/blob/master/resources/albert_configuration.jpeg"  width="80%" height="40%" />
 
 Reference
 -----------------------------------------------
