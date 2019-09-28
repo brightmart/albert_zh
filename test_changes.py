@@ -1,6 +1,7 @@
 # coding=utf-8
 import tensorflow as tf
 from modeling import embedding_lookup_factorized,transformer_model
+import os
 
 """
 测试albert主要的改进点：词嵌入的因式分解、层间参数共享、段落间连贯性
@@ -68,7 +69,10 @@ def test_sentence_order_prediction():
 
     :return:
     """
-    pass
+    # 添加运行权限
+    os.system("chmod +x create_pretrain_data.sh")
+
+    os.system("./create_pretrain_data.sh")
 
 
 # 1.test of Factorized embedding parameterization
