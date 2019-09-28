@@ -57,10 +57,14 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 
 模型性能与对比(英文)
 -----------------------------------------------    
-<img src="https://github.com/brightmart/albert_zh/blob/master/resources/state_of_the_art.jpeg"  width="80%" height="40%" />
+<img src="https://github.com/brightmart/albert_zh/blob/master/resources/state_of_the_art.jpg"  width="80%" height="40%" />
   
    
-<img src="https://github.com/brightmart/albert_zh/blob/master/resources/albert_performance.jpeg"  width="80%" height="40%" />
+<img src="https://github.com/brightmart/albert_zh/blob/master/resources/albert_performance.jpg"  width="80%" height="40%" />
+
+
+中文任务集上效果对比测试
+----------------------------------------------- 
 
 ### 自然语言推断：XNLI
 
@@ -78,10 +82,7 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 
 
 注：BERT-wwm-ext来自于<a href="https://github.com/ymcui/Chinese-BERT-wwm">这里</a>；XLNet来自于<a href="https://github.com/ymcui/Chinese-PreTrained-XLNet">这里</a>; RoBERTa-zh-base，指12层RoBERTa中文模型
-
-
-中文任务集上效果对比测试
------------------------------------------------    
+   
 
 ###  问题匹配语任务：LCQMC(Sentence Pair Matching)
 
@@ -102,7 +103,7 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 
 模型参数和配置
 -----------------------------------------------
-<img src="https://github.com/brightmart/albert_zh/blob/master/resources/albert_configuration.jpeg"  width="80%" height="40%" />
+<img src="https://github.com/brightmart/albert_zh/blob/master/resources/albert_configuration.jpg"  width="80%" height="40%" />
 
 代码实现和测试
 -----------------------------------------------
