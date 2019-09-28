@@ -132,7 +132,7 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 
 运行以下命令即可。项目自动了一个示例的文本文件(data/news_zh_1.txt)
    
-   bash create_pretrain_data.sh
+       bash create_pretrain_data.sh
    
 如果你有很多文本文件，可以通过传入参数的方式，生成多个特定格式的文件(tfrecords）
 
