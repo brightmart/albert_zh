@@ -62,6 +62,12 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 -----------------------------------------------
 <img src="https://github.com/brightmart/albert_zh/blob/master/resources/albert_configuration.jpeg"  width="80%" height="40%" />
 
+代码实现
+-----------------------------------------------
+通过运行以下命令测试主要的改进点（测试方法进一步添加中）：
+
+    python test_changes.py
+
 Reference
 -----------------------------------------------
 1、<a href="https://openreview.net/pdf?id=H1eA7AEtvS">ALBERT: A Lite BERT For Self-Supervised Learning Of Language Representations</a>
