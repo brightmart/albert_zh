@@ -138,7 +138,7 @@ def model_fn_builder(bert_config, init_checkpoint, learning_rate,
 
     (masked_lm_loss,
      masked_lm_example_loss, masked_lm_log_probs) = get_masked_lm_output(
-         bert_config, model.get_sequence_output(), model.get_embedding_table(),
+         bert_config, model.get_sequence_output(), model.get_embedding_table(),model.get_embedding_table_2(),
          masked_lm_positions, masked_lm_ids, masked_lm_weights)
 
     (next_sentence_loss, next_sentence_example_loss, # TODO TODO TODO 可以计算单不算成绩
@@ -240,7 +240,7 @@ def model_fn_builder(bert_config, init_checkpoint, learning_rate,
   return model_fn
 
 
-def get_masked_lm_output(bert_config, input_tensor, output_weights, positions,
+def get_masked_lm_output(bert_config, input_tensor, output_weights,project_weights, positions,
                          label_ids, label_weights):
   """Get loss and log probs for the masked LM."""
   input_tensor = gather_indexes(input_tensor, positions)
@@ -263,7 +263,12 @@ def get_masked_lm_output(bert_config, input_tensor, output_weights, positions,
         "output_bias",
         shape=[bert_config.vocab_size],
         initializer=tf.zeros_initializer())
-    logits = tf.matmul(input_tensor, output_weights, transpose_b=True)
+    # logits = tf.matmul(input_tensor, output_weights, transpose_b=True)
+    # input_tensor=[-1,hidden_size], project_weights=[embedding_size, hidden_size], project_weights_transpose=[hidden_size, embedding_size]--->[-1, embedding_size]
+    input_project = tf.matmul(input_tensor, project_weights, transpose_b=True)
+    logits = tf.matmul(input_project, output_weights, transpose_b=True)
+    #  # input_project=[-1, embedding_size], output_weights=[vocab_size, embedding_size], output_weights_transpose=[embedding_size, vocab_size] ---> [-1, vocab_size]
+
     logits = tf.nn.bias_add(logits, output_bias)
     log_probs = tf.nn.log_softmax(logits, axis=-1)
 

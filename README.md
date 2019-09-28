@@ -137,14 +137,17 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 如果你有很多文本文件，可以通过传入参数的方式，生成多个特定格式的文件(tfrecords）
 
 #### 执行预训练
-
+    GPU:
     export BERT_BASE_DIR=bert_config
     nohup python3 run_pretraining.py --input_file=./data/tf*.tfrecord  \
     --output_dir=my_new_model_path --do_train=True --do_eval=True --bert_config_file=$BERT_BASE_DIR/bert_config_xxlarge.json \
     --train_batch_size=4096 --max_seq_length=512 --max_predictions_per_seq=76 \
     --num_train_steps=125000 --num_warmup_steps=12500 --learning_rate=0.00176    \
-    --save_checkpoints_steps=2000  --init_checkpoint=$BERT_BASE_DIR/bert_model.ckpt  &
-
+    --save_checkpoints_steps=2000   --init_checkpoint=$BERT_BASE_DIR/bert_model.ckpt &
+    
+    TPU, add following information:
+        --use_tpu=True  --tpu_name=grpc://10.240.1.66:8470 --tpu_zone=us-central1-a
+        
     注：如果你重头开始训练，可以不指定init_checkpoint；
     如果你从现有的模型基础上训练，指定一下BERT_BASE_DIR的路径，并确保bert_config_file和init_checkpoint两个参数的值能对应到相应的文件上；
     领域上的预训练，根据数据的大小，可以不用训练特别久。

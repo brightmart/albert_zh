@@ -261,6 +261,8 @@ class BertModel(object):
   def get_embedding_table(self):
     return self.embedding_table
 
+  def get_embedding_table_2(self):
+    return self.embedding_table_2
 
 def gelu(x):
   """Gaussian Error Linear Unit.
