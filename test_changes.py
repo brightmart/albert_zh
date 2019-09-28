@@ -65,7 +65,7 @@ def test_sentence_order_prediction():
     """
     sentence order prediction.
 
-    check method of create_instances_from_document_albert from create_pretrining_data_original.py
+    check method of create_instances_from_document_albert from create_pretrining_data.py
 
     :return:
     """

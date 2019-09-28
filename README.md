@@ -41,6 +41,17 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
       consecutive segments but with their order swapped. This forces the model to learn finer-grained distinctions about
       discourse-level coherence properties. 
 
+其他变化，还有：
+
+    1）去掉了dropout（或者说设置dropout为0).
+        最大的模型，训练了1百万步后，还是没有过拟合训练数据。说明模型的容量还可以更大，就移除了dropout（dropout可以认为是随机的去掉网络中的一部分，同时使网络变小一些）
+        We also note that, even after training for 1M steps, our largest models still do not overfit to their training data. As a result, we decide to remove dropout to further increase our model capacity.
+    
+    2）为加快训练速度，使用LAMB做为优化器，使用了大的batch_size来训练(4096)。 LAMB优化器使得我们可以训练，特别大的批次batch_size，如高达6万。
+    
+    3）使用n-gram(uni-gram,bi-gram, tri-gram）来做mask language model即以不同的概率使用n-gram,uni-gram的概率最大，bi-gram其次，tri-gram概率最小。
+       本项目中目前使用的是在中文上做whole word mask，稍后会更新一下与n-gram mask的效果对比。n-gram从spanBERT中来。
+
 发布计划 Release Plan
 -----------------------------------------------
 1、albert_base, 参数量12M, 层数12，10月5号
@@ -61,6 +72,9 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
   
    
 <img src="https://github.com/brightmart/albert_zh/blob/master/resources/albert_performance.jpg"  width="80%" height="40%" />
+
+
+<img src="https://github.com/brightmart/albert_zh/blob/master/resources/add_data_removing_dropout.jpg"  width="80%" height="40%" />
 
 
 中文任务集上效果对比测试
@@ -110,6 +124,31 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 通过运行以下命令测试主要的改进点，包括但不限于词嵌入向量参数的因式分解、跨层参数共享、段落连续性任务等。
 
     python test_changes.py
+
+预训练
+-----------------------------------------------
+
+#### 生成特定格式的文件(tfrecords)
+
+运行以下命令即可。项目自动了一个示例的文本文件(data/news_zh_1.txt)
+   
+   bash create_pretrain_data.sh
+   
+如果你有很多文本文件，可以通过传入参数的方式，生成多个特定格式的文件(tfrecords）
+
+#### 执行预训练
+
+    export BERT_BASE_DIR=bert_config
+    nohup python3 run_pretraining.py --input_file=./data/tf*.tfrecord  \
+    --output_dir=my_new_model_path --do_train=True --do_eval=True --bert_config_file=$BERT_BASE_DIR/bert_config_xxlarge.json \
+    --train_batch_size=4096 --max_seq_length=512 --max_predictions_per_seq=76 \
+    --num_train_steps=125000 --num_warmup_steps=12500 --learning_rate=0.00176    \
+    --save_checkpoints_steps=2000  --init_checkpoint=$BERT_BASE_DIR/bert_model.ckpt  &
+
+    注：如果你重头开始训练，可以不指定init_checkpoint；
+    如果你从现有的模型基础上训练，指定一下BERT_BASE_DIR的路径，并确保bert_config_file和init_checkpoint两个参数的值能对应到相应的文件上；
+    领域上的预训练，根据数据的大小，可以不用训练特别久。
+
 
 
 #### 技术交流与问题讨论QQ群: 836811304
