@@ -192,7 +192,9 @@ def create_training_instances(input_files, tokenizer, max_seq_length,
   for input_file in input_files:
     with tf.gfile.GFile(input_file, "r") as reader:
       while True:
-        line = tokenization.convert_to_unicode(reader.readline())
+        strings=reader.readline()
+        strings=strings.replace("   "," ").replace("  "," ") # 如果有两个或三个空格，替换为一个空格
+        line = tokenization.convert_to_unicode(strings)
         if not line:
           break
         line = line.strip()
@@ -546,8 +548,7 @@ def create_masked_lm_predictions(tokens, masked_lm_prob,
       else:
         # 10% of the time, keep original
         if rng.random() < 0.5:
-          masked_token = tokens[index][2:] if len(re.findall('##[\u4E00-\u9FA5]', tokens[index])) > 0 else tokens[
-            index]  # 去掉"##"
+          masked_token = tokens[index][2:] if len(re.findall('##[\u4E00-\u9FA5]', tokens[index])) > 0 else tokens[index]  # 去掉"##"
         # 10% of the time, replace with random word
         else:
           masked_token = vocab_words[rng.randint(0, len(vocab_words) - 1)]
