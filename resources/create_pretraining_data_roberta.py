@@ -523,7 +523,7 @@ def create_masked_lm_predictions(tokens, masked_lm_prob,
 
     rng.shuffle(cand_indexes)
 
-    output_tokens = [t[2:] if len(re.findall('##[\u4E00-\u9FA5]', t))>0 else t for t in tokens]
+    output_tokens = [t[2:] if len(re.findall('##[\u4E00-\u9FA5]', t))>0 else t for t in tokens] # 去掉"##"
 
     num_to_predict = min(max_predictions_per_seq,
                          max(1, int(round(len(tokens) * masked_lm_prob))))
@@ -554,7 +554,7 @@ def create_masked_lm_predictions(tokens, masked_lm_prob,
             else:
                 # 10% of the time, keep original
                 if rng.random() < 0.5:
-                    masked_token = tokens[index][2:] if len(re.findall('##[\u4E00-\u9FA5]', tokens[index]))>0 else tokens[index]
+                    masked_token = tokens[index][2:] if len(re.findall('##[\u4E00-\u9FA5]', tokens[index]))>0 else tokens[index] # 去掉"##"
                 # 10% of the time, replace with random word
                 else:
                     masked_token = vocab_words[rng.randint(0, len(vocab_words) - 1)]
