@@ -141,13 +141,11 @@ def model_fn_builder(bert_config, init_checkpoint, learning_rate,
          bert_config, model.get_sequence_output(), model.get_embedding_table(),model.get_embedding_table_2(),
          masked_lm_positions, masked_lm_ids, masked_lm_weights)
 
-    (next_sentence_loss, next_sentence_example_loss, # TODO TODO TODO 可以计算单不算成绩
+    (next_sentence_loss, next_sentence_example_loss,
      next_sentence_log_probs) = get_next_sentence_output(
          bert_config, model.get_pooled_output(), next_sentence_labels)
-    # batch_size=masked_lm_log_probs.shape[0]
-    # next_sentence_example_loss=tf.zeros((batch_size)) #tf.constant(0.0,dtype=tf.float32)
-    # next_sentence_log_probs=tf.zeros((batch_size,2))
-    total_loss = masked_lm_loss # TODO remove next sentence loss 2019-08-08, + next_sentence_loss
+
+    total_loss = masked_lm_loss + next_sentence_loss
 
     tvars = tf.trainable_variables()
 

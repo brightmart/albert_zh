@@ -1,17 +1,24 @@
 # albert_zh
-海量中文语料上预训练ALBERT模型：参数更少，效果更好
 
-Chinese version of ALBERT pre-trained model
+An Implementation of <a href="https://arxiv.org/pdf/1909.11942.pdf">A Lite Bert For Self-Supervised Learning Language Representations</a> with TensorFlow
+
+海量中文语料上预训练ALBERT模型：参数更少，效果更好 
+
+Chinese version of ALBERT pre-trained model, both TensorFlow and PyTorch checkpoint of Chinese will be available 
 
 *** UPDATE, 2019-09-28 ***  add code for three main changes of albert from bert and its test functions
 
-ALBERT模型介绍
+ALBERT模型介绍 Introduction of ALBERT
 -----------------------------------------------
+ALBert is based on Bert, but with some improvements. It achieve state of the art performance on main benchmarks recently, but with
+
+30% parameters less or more.
+
 ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同的是，这次是预训练小模型，效果更好、参数更少。
 
 预训练小模型也能拿下13项NLP任务，ALBERT三大改造登顶GLUE基准
 
-它对BERT进行了三个改造：
+它对BERT进行了三个改造 Three main changes of ALBert from Bert：
 
 1）词嵌入向量参数的因式分解 Factorized embedding parameterization
    
@@ -41,15 +48,17 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
       consecutive segments but with their order swapped. This forces the model to learn finer-grained distinctions about
       discourse-level coherence properties. 
 
-其他变化，还有：
+其他变化，还有 Other changes：
 
-    1）去掉了dropout（或者说设置dropout为0).
+    1）去掉了dropout  Remvoe dropout to enlarge capacity of model.
         最大的模型，训练了1百万步后，还是没有过拟合训练数据。说明模型的容量还可以更大，就移除了dropout（dropout可以认为是随机的去掉网络中的一部分，同时使网络变小一些）
         We also note that, even after training for 1M steps, our largest models still do not overfit to their training data. As a result, we decide to remove dropout to further increase our model capacity.
     
-    2）为加快训练速度，使用LAMB做为优化器，使用了大的batch_size来训练(4096)。 LAMB优化器使得我们可以训练，特别大的批次batch_size，如高达6万。
+    2）为加快训练速度，使用LAMB做为优化器 Use lAMB as optimizer, to train with big batch size
+      使用了大的batch_size来训练(4096)。 LAMB优化器使得我们可以训练，特别大的批次batch_size，如高达6万。
     
-    3）使用n-gram(uni-gram,bi-gram, tri-gram）来做mask language model即以不同的概率使用n-gram,uni-gram的概率最大，bi-gram其次，tri-gram概率最小。
+    3）使用n-gram(uni-gram,bi-gram, tri-gram）来做遮蔽语言模型 Use n-gram as make language model
+       即以不同的概率使用n-gram,uni-gram的概率最大，bi-gram其次，tri-gram概率最小。
        本项目中目前使用的是在中文上做whole word mask，稍后会更新一下与n-gram mask的效果对比。n-gram从spanBERT中来。
 
 发布计划 Release Plan
@@ -62,11 +71,11 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 
 4、albert_xxlarge, 参数量233M, 层数12，10月7号（效果最佳的模型）
 
-训练语料
+训练语料 Training data
 -----------------------------------------------
 40g中文语料，超过100亿汉字，包括多个百科、新闻、互动社区、小说、评论。
 
-模型性能与对比(英文)
+模型性能与对比(英文) Performance and Comparision
 -----------------------------------------------    
 <img src="https://github.com/brightmart/albert_zh/blob/master/resources/state_of_the_art.jpg"  width="80%" height="40%" />
   
@@ -77,10 +86,10 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 <img src="https://github.com/brightmart/albert_zh/blob/master/resources/add_data_removing_dropout.jpg"  width="80%" height="40%" />
 
 
-中文任务集上效果对比测试
+中文任务集上效果对比测试 Performance on Chinese datasets
 ----------------------------------------------- 
 
-### 自然语言推断：XNLI
+### 自然语言推断：XNLI of Chinese Version
 
 | 模型 | 开发集 | 测试集 |
 | :------- | :---------: | :---------: |
@@ -115,20 +124,20 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 
 注：将很快替换？
 
-模型参数和配置
+模型参数和配置 Configuration of Models
 -----------------------------------------------
 <img src="https://github.com/brightmart/albert_zh/blob/master/resources/albert_configuration.jpg"  width="80%" height="40%" />
 
-代码实现和测试
+代码实现和测试 Implementation and Code Testing
 -----------------------------------------------
 通过运行以下命令测试主要的改进点，包括但不限于词嵌入向量参数的因式分解、跨层参数共享、段落连续性任务等。
 
     python test_changes.py
 
-预训练
+预训练 Pre-training
 -----------------------------------------------
 
-#### 生成特定格式的文件(tfrecords)
+#### 生成特定格式的文件(tfrecords) Generate tfrecords Files
 
 运行以下命令即可。项目自动了一个示例的文本文件(data/news_zh_1.txt)
    
@@ -136,7 +145,7 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
    
 如果你有很多文本文件，可以通过传入参数的方式，生成多个特定格式的文件(tfrecords）
 
-#### 执行预训练
+#### 执行预训练 pre-training on GPU/TPU
     GPU:
     export BERT_BASE_DIR=bert_config
     nohup python3 run_pretraining.py --input_file=./data/tf*.tfrecord  \
@@ -153,8 +162,7 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
     领域上的预训练，根据数据的大小，可以不用训练特别久。
 
 
-
-#### 技术交流与问题讨论QQ群: 836811304
+#### 技术交流与问题讨论QQ群: 836811304 Join us on QQ group
 
 If you have any question, you can raise an issue, or send me an email: brightmart@hotmail.com;
 
