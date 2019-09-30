@@ -2,9 +2,11 @@
 
 An Implementation of <a href="https://arxiv.org/pdf/1909.11942.pdf">A Lite Bert For Self-Supervised Learning Language Representations</a> with TensorFlow
 
-海量中文语料上预训练ALBERT模型：参数更少，效果更好 
+海量中文语料上预训练ALBERT模型：参数更少，效果更好。预训练小模型也能拿下13项NLP任务，ALBERT三大改造登顶GLUE基准
 
 Chinese version of ALBERT pre-trained model, both TensorFlow and PyTorch checkpoint of Chinese will be available 
+
+*** UPDATE, 2019-09-30 ***  add albert_config; going to release ALBert_zh_base with only 1/6 parameters of Bert on 1st Oct
 
 *** UPDATE, 2019-09-28 ***  add code for three main changes of albert from bert and its test functions
 
@@ -15,8 +17,6 @@ ALBert is based on Bert, but with some improvements. It achieve state of the art
 30% parameters less or more.
 
 ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同的是，这次是预训练小模型，效果更好、参数更少。
-
-预训练小模型也能拿下13项NLP任务，ALBERT三大改造登顶GLUE基准
 
 它对BERT进行了三个改造 Three main changes of ALBert from Bert：
 
@@ -53,7 +53,8 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
     1）去掉了dropout  Remvoe dropout to enlarge capacity of model.
         最大的模型，训练了1百万步后，还是没有过拟合训练数据。说明模型的容量还可以更大，就移除了dropout（dropout可以认为是随机的去掉网络中的一部分，同时使网络变小一些）
         We also note that, even after training for 1M steps, our largest models still do not overfit to their training data. As a result, we decide to remove dropout to further increase our model capacity.
-    
+        其他型号的模型，在我们的实现中我们还是会保留原始的dropout的比例，防止模型对训练数据的过拟合。
+        
     2）为加快训练速度，使用LAMB做为优化器 Use lAMB as optimizer, to train with big batch size
       使用了大的batch_size来训练(4096)。 LAMB优化器使得我们可以训练，特别大的批次batch_size，如高达6万。
     
@@ -147,9 +148,9 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 
 #### 执行预训练 pre-training on GPU/TPU
     GPU:
-    export BERT_BASE_DIR=bert_config
+    export BERT_BASE_DIR=albert_config
     nohup python3 run_pretraining.py --input_file=./data/tf*.tfrecord  \
-    --output_dir=my_new_model_path --do_train=True --do_eval=True --bert_config_file=$BERT_BASE_DIR/bert_config_xxlarge.json \
+    --output_dir=my_new_model_path --do_train=True --do_eval=True --bert_config_file=$BERT_BASE_DIR/albert_config_xxlarge.json \
     --train_batch_size=4096 --max_seq_length=512 --max_predictions_per_seq=76 \
     --num_train_steps=125000 --num_warmup_steps=12500 --learning_rate=0.00176    \
     --save_checkpoints_steps=2000   --init_checkpoint=$BERT_BASE_DIR/bert_model.ckpt &
@@ -169,6 +170,8 @@ If you have any question, you can raise an issue, or send me an email: brightmar
 You can also send pull request to report you performance on your task or add methods on how to load models for PyTorch and so on.
 
 If you have ideas for generate best performance pre-training Chinese model, please also let me know.
+
+##### Research supported with Cloud TPUs from Google's TensorFlow Research Cloud (TFRC)
 
 Reference
 -----------------------------------------------
