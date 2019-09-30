@@ -6,9 +6,21 @@ An Implementation of <a href="https://arxiv.org/pdf/1909.11942.pdf">A Lite Bert 
 
 Chinese version of ALBERT pre-trained model, both TensorFlow and PyTorch checkpoint of Chinese will be available 
 
-*** UPDATE, 2019-09-30 ***  add albert_config; going to release ALBert_zh_base with only 1/6 parameters of Bert on 1st Oct
+*** UPDATE, 2019-10-01 ***  
+
+     Relesed albert_base_zh with only 10% parameters of bert_base, very small model(40M) & training can be very fast. 
 
 *** UPDATE, 2019-09-28 ***  add code for three main changes of albert from bert and its test functions
+
+模型下载
+-----------------------------------------------
+1、<a href="https://storage.googleapis.com/albert_zh/albert_base_zh.zip">albert_base_zh(小模型体验版)</a>, 参数量12M, 层数12，大小为40M
+
+    参数量为bert_base的十分之一，模型大小也十分之一；在口语化描述相似性数据集LCQMC的测试集上相比bert_base下降约1个点；相比未预训练，albert_base提升14个点
+
+2、albert_large, albert_xlarge, albert_xxlarge, coming soon.
+
+    if you want albert model with best performance, there is still a few days to go.
 
 ALBERT模型介绍 Introduction of ALBERT
 -----------------------------------------------
@@ -64,7 +76,7 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 
 发布计划 Release Plan
 -----------------------------------------------
-1、albert_base, 参数量12M, 层数12，10月5号
+1、albert_base, 参数量12M, 层数12，10月7号
 
 2、albert_large, 参数量18M, 层数24，10月13号
 
@@ -72,9 +84,19 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 
 4、albert_xxlarge, 参数量233M, 层数12，10月7号（效果最佳的模型）
 
-训练语料 Training data
+训练语料/训练配置 Training Data & Configuration
 -----------------------------------------------
-40g中文语料，超过100亿汉字，包括多个百科、新闻、互动社区、小说、评论。
+30g中文语料，超过100亿汉字，包括多个百科、新闻、互动社区。
+
+预训练序列长度sequence_length设置为512，批次batch_size为4096，训练产生了3.5亿个训练数据(instance)；每一个模型默认会训练125k步，albert_xxlarge将训练更久。
+
+作为比较，roberta_zh预训练产生了2.5亿个训练数据、序列长度为256。由于albert_zh预训练生成的训练数据更多、使用的序列长度更长，
+ 
+    我们预计albert_zh会有比roberta_zh更好的性能表现，并且能更好处理较长的文本。
+
+训练使用TPU v3 Pod，我们使用的是v3-256，它包含32个v3-8。每个v3-8机器，含有128G的显存。
+
+
 
 模型性能与对比(英文) Performance and Comparision
 -----------------------------------------------    
@@ -104,10 +126,8 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 | ALBERT-xlarge | ? | ? |
 | ALBERT-xxlarge | ? | ? |
 
-
 注：BERT-wwm-ext来自于<a href="https://github.com/ymcui/Chinese-BERT-wwm">这里</a>；XLNet来自于<a href="https://github.com/ymcui/Chinese-PreTrained-XLNet">这里</a>; RoBERTa-zh-base，指12层RoBERTa中文模型
    
-
 ###  问题匹配语任务：LCQMC(Sentence Pair Matching)
 
 | 模型 | 开发集(Dev) | 测试集(Test) |
@@ -117,13 +137,21 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 | BERT-wwm |89.4 (89.2) | 87.0 (86.8) | 
 | BERT-wwm-ext | - |-  |
 | RoBERTa-zh-base | 88.7 | 87.0  |
-| RoBERTa-zh-Large | 89.9(89.6) | 87.2(86.7) |
+| RoBERTa-zh-Large | ***89.9(89.6)*** | ***87.2(86.7)*** |
 | RoBERTa-zh-Large(20w_steps) | 89.7| 87.0 |
+| ALBERT-zh-base | 86.4 | 86.3 |
 | ALBERT-xlarge | ? | ? |
 | ALBERT-xxlarge | ? | ? |
 
+### 
 
-注：将很快替换？
+| Model | MLM eval acc | SOP eval acc | Training(Hours) | Loss eval |
+| :------- | :---------: | :---------: | :---------: |:---------: |
+| albert_zh_base | 79.1% | 99.0% | 6h | 1.01|
+| albert_zh_large | ? | ? | ? | ?|
+
+
+注：? 将很快替换
 
 模型参数和配置 Configuration of Models
 -----------------------------------------------
