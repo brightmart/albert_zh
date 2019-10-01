@@ -2,9 +2,15 @@
 
 An Implementation of <a href="https://arxiv.org/pdf/1909.11942.pdf">A Lite Bert For Self-Supervised Learning Language Representations</a> with TensorFlow
 
-海量中文语料上预训练ALBERT模型：参数更少，效果更好。预训练小模型也能拿下13项NLP任务，ALBERT三大改造登顶GLUE基准
+ALBert is based on Bert, but with some improvements. It achieve state of the art performance on main benchmarks recently, 
 
-Chinese version of ALBERT pre-trained model, both TensorFlow and PyTorch checkpoint of Chinese will be available 
+but with 30% parameters less or more. For albert_base it only has ten percentage parameters compare of original bert model, 
+
+and main accuracy is retained. 
+
+Chinese version of ALBERT pre-trained model, checkpoints both for TensorFlow and PyTorch will be available. 
+
+海量中文语料上预训练ALBERT模型：参数更少，效果更好。预训练小模型也能拿下13项NLP任务，ALBERT三大改造登顶GLUE基准
 
 *** UPDATE, 2019-10-01 ***  
 
@@ -12,7 +18,7 @@ Chinese version of ALBERT pre-trained model, both TensorFlow and PyTorch checkpo
 
 *** UPDATE, 2019-09-28 ***  add code for three main changes of albert from bert and its test functions
 
-模型下载
+模型下载 Download Pre-trained Models of Chinese
 -----------------------------------------------
 1、<a href="https://storage.googleapis.com/albert_zh/albert_base_zh.zip">albert_base_zh(小模型体验版)</a>, 参数量12M, 层数12，大小为40M
 
@@ -24,10 +30,6 @@ Chinese version of ALBERT pre-trained model, both TensorFlow and PyTorch checkpo
 
 ALBERT模型介绍 Introduction of ALBERT
 -----------------------------------------------
-ALBert is based on Bert, but with some improvements. It achieve state of the art performance on main benchmarks recently, but with
-
-30% parameters less or more.
-
 ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同的是，这次是预训练小模型，效果更好、参数更少。
 
 它对BERT进行了三个改造 Three main changes of ALBert from Bert：
@@ -148,8 +150,9 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 | Model | MLM eval acc | SOP eval acc | Training(Hours) | Loss eval |
 | :------- | :---------: | :---------: | :---------: |:---------: |
 | albert_zh_base | 79.1% | 99.0% | 6h | 1.01|
-| albert_zh_large | ? | ? | ? | ?|
-
+| albert_zh_large | 80.9% | 98.6% | 22.5h | 0.93|
+| albert_zh_xlarge | ? | ? | 53h(预估) | ? |
+| albert_zh_xxlarge | ? | ? | 106h(预估) | ? |
 
 注：? 将很快替换
 
@@ -190,6 +193,32 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
     如果你从现有的模型基础上训练，指定一下BERT_BASE_DIR的路径，并确保bert_config_file和init_checkpoint两个参数的值能对应到相应的文件上；
     领域上的预训练，根据数据的大小，可以不用训练特别久。
 
+下游任务 Fine-tuning
+-----------------------------------------------
+以使用albert_base做LCQMC任务为例。LCQMC任务是在口语化描述的数据集上做文本的相似性预测。
+
+We will use LCQMC dataset for fine-tuning, it is oral language corpus, it is used to train and predict semantic similarity of a pair of sentences.
+
+下载<a href="https://drive.google.com/open?id=1HXYMqsXjmA5uIfu_SFqP7r_vZZG-m_H0">LCQMC</a>数据集，包含训练、验证和测试集，训练集包含24万口语化描述的中文句子对，标签为1或0。1为句子语义相似，0为语义不相似。
+
+通过运行下列命令做LCQMC数据集上的fine-tuning:
+    
+    1. Clone this project:
+          
+          git clone https://github.com/brightmart/albert_zh.git
+          
+    2. Fine-tuning by run following command：
+    
+    export BERT_BASE_DIR=./albert_large_zh
+    export TEXT_DIR=./lcqmc
+    nohup python3 run_classifier.py   --task_name=lcqmc_pair   --do_train=False   --do_eval=true   --data_dir=$TEXT_DIR   --vocab_file=./albert_config/vocab.txt  \
+    --bert_config_file=./albert_config/albert_config_large.json --max_seq_length=128 --train_batch_size=64   --learning_rate=2e-5  --num_train_epochs=3 \
+    --output_dir=albert_large_lcqmc_checkpoints --init_checkpoint=$BERT_BASE_DIR/bert_model.ckpt &
+    
+    Notice/注：
+        you need to download pre-trained chinese albert model, and also download LCQMC dataset 
+        你需要下载预训练的模型，并放入到项目当前项目，假设目录名称为albert_large_zh; 需要下载LCQMC数据集，并放入到当前项目，假设数据集目录名称为lcqmc
+       
 
 #### 技术交流与问题讨论QQ群: 836811304 Join us on QQ group
 
@@ -201,17 +230,26 @@ If you have ideas for generate best performance pre-training Chinese model, plea
 
 ##### Research supported with Cloud TPUs from Google's TensorFlow Research Cloud (TFRC)
 
+Cite
+-----------------------------------------------
+Bright Liang Xu, albert_zh, (2019),GitHub repository,https://github.com/brightmart/albert_zh
+
 Reference
 -----------------------------------------------
 1、<a href="https://openreview.net/pdf?id=H1eA7AEtvS">ALBERT: A Lite BERT For Self-Supervised Learning Of Language Representations</a>
 
-2、<a href="http://baijiahao.baidu.com/s?id=1645712785366950083&wfr=spider&for=pc">预训练小模型也能拿下13项NLP任务，ALBERT三大改造登顶GLUE基准</a>
+2、<a href="https://arxiv.org/pdf/1810.04805.pdf">BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding</a>
 
-3、<a href="https://arxiv.org/pdf/1810.04805.pdf">BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding</a>
+3、<a href="https://arxiv.org/abs/1907.10529">SpanBERT: Improving Pre-training by Representing and Predicting Spans</a>
 
-4、<a href="https://arxiv.org/abs/1907.10529">SpanBERT: Improving Pre-training by Representing and Predicting Spans</a>
+4、<a href="https://arxiv.org/pdf/1907.11692.pdf">RoBERTa: A Robustly Optimized BERT Pretraining Approach</a>
 
-5、<a href="https://arxiv.org/pdf/1907.11692.pdf">RoBERTa: A Robustly Optimized BERT Pretraining Approach</a>
+5、<a href="https://arxiv.org/pdf/1904.00962.pdf">Large Batch Optimization for Deep Learning: Training BERT in 76 minutes(LAMB)</a>
+
+6、<a href="https://github.com/ymcui/LAMB_Optimizer_TF">LAMB Optimizer,TensorFlow version</a>
+
+7、<a href="http://baijiahao.baidu.com/s?id=1645712785366950083&wfr=spider&for=pc">预训练小模型也能拿下13项NLP任务，ALBERT三大改造登顶GLUE基准</a>
+
 
 
 
