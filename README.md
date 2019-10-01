@@ -2,19 +2,19 @@
 
 An Implementation of <a href="https://arxiv.org/pdf/1909.11942.pdf">A Lite Bert For Self-Supervised Learning Language Representations</a> with TensorFlow
 
-ALBert is based on Bert, but with some improvements. It achieve state of the art performance on main benchmarks recently, 
+ALBert is based on Bert, but with some improvements. It achieve state of the art performance on main benchmarks 
 
-but with 30% parameters less or more. For albert_base it only has ten percentage parameters compare of original bert model, 
+recently, but with 30% parameters less or more. For albert_base it only has ten percentage parameters compare of original 
 
-and main accuracy is retained. 
+bert model, and main accuracy is retained. 
 
-Chinese version of ALBERT pre-trained model, checkpoints both for TensorFlow and PyTorch will be available. 
+Chinese version of ALBERT pre-trained model, including checkpoints both for TensorFlow and PyTorch, will be available. 
 
 海量中文语料上预训练ALBERT模型：参数更少，效果更好。预训练小模型也能拿下13项NLP任务，ALBERT三大改造登顶GLUE基准
 
 *** UPDATE, 2019-10-01 ***  
 
-     Relesed albert_base_zh with only 10% parameters of bert_base, very small model(40M) & training can be very fast. 
+    Relesed albert_base_zh with only 10% parameters of bert_base, very small model(40M) & training can be very fast. 
 
 *** UPDATE, 2019-09-28 ***  add code for three main changes of albert from bert and its test functions
 
@@ -22,7 +22,8 @@ Chinese version of ALBERT pre-trained model, checkpoints both for TensorFlow and
 -----------------------------------------------
 1、<a href="https://storage.googleapis.com/albert_zh/albert_base_zh.zip">albert_base_zh(小模型体验版)</a>, 参数量12M, 层数12，大小为40M
 
-    参数量为bert_base的十分之一，模型大小也十分之一；在口语化描述相似性数据集LCQMC的测试集上相比bert_base下降约1个点；相比未预训练，albert_base提升14个点
+    参数量为bert_base的十分之一，模型大小也十分之一；在口语化描述相似性数据集LCQMC的测试集上相比bert_base下降约1个点；
+    相比未预训练，albert_base提升14个点
 
 2、albert_large, albert_xlarge, albert_xxlarge, coming soon.
 
@@ -65,8 +66,10 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 其他变化，还有 Other changes：
 
     1）去掉了dropout  Remvoe dropout to enlarge capacity of model.
-        最大的模型，训练了1百万步后，还是没有过拟合训练数据。说明模型的容量还可以更大，就移除了dropout（dropout可以认为是随机的去掉网络中的一部分，同时使网络变小一些）
-        We also note that, even after training for 1M steps, our largest models still do not overfit to their training data. As a result, we decide to remove dropout to further increase our model capacity.
+        最大的模型，训练了1百万步后，还是没有过拟合训练数据。说明模型的容量还可以更大，就移除了dropout
+        （dropout可以认为是随机的去掉网络中的一部分，同时使网络变小一些）
+        We also note that, even after training for 1M steps, our largest models still do not overfit to their training data. 
+        As a result, we decide to remove dropout to further increase our model capacity.
         其他型号的模型，在我们的实现中我们还是会保留原始的dropout的比例，防止模型对训练数据的过拟合。
         
     2）为加快训练速度，使用LAMB做为优化器 Use lAMB as optimizer, to train with big batch size
@@ -145,7 +148,7 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 | ALBERT-xlarge | ? | ? |
 | ALBERT-xxlarge | ? | ? |
 
-### 
+### 语言模型、文本段预测准确性、训练时间 Mask Language Model Accuarcy & Training Time
 
 | Model | MLM eval acc | SOP eval acc | Training(Hours) | Loss eval |
 | :------- | :---------: | :---------: | :---------: |:---------: |
@@ -207,22 +210,25 @@ We will use LCQMC dataset for fine-tuning, it is oral language corpus, it is use
           
           git clone https://github.com/brightmart/albert_zh.git
           
-    2. Fine-tuning by run following command：
+    2. Fine-tuning by running the following command：
     
-    export BERT_BASE_DIR=./albert_large_zh
-    export TEXT_DIR=./lcqmc
-    nohup python3 run_classifier.py   --task_name=lcqmc_pair   --do_train=False   --do_eval=true   --data_dir=$TEXT_DIR   --vocab_file=./albert_config/vocab.txt  \
-    --bert_config_file=./albert_config/albert_config_large.json --max_seq_length=128 --train_batch_size=64   --learning_rate=2e-5  --num_train_epochs=3 \
-    --output_dir=albert_large_lcqmc_checkpoints --init_checkpoint=$BERT_BASE_DIR/bert_model.ckpt &
-    
+        export BERT_BASE_DIR=./albert_large_zh
+        export TEXT_DIR=./lcqmc
+        nohup python3 run_classifier.py   --task_name=lcqmc_pair   --do_train=False   --do_eval=true   --data_dir=$TEXT_DIR   --vocab_file=./albert_config/vocab.txt  \
+        --bert_config_file=./albert_config/albert_config_large.json --max_seq_length=128 --train_batch_size=64   --learning_rate=2e-5  --num_train_epochs=3 \
+        --output_dir=albert_large_lcqmc_checkpoints --init_checkpoint=$BERT_BASE_DIR/bert_model.ckpt &
+        
     Notice/注：
         you need to download pre-trained chinese albert model, and also download LCQMC dataset 
-        你需要下载预训练的模型，并放入到项目当前项目，假设目录名称为albert_large_zh; 需要下载LCQMC数据集，并放入到当前项目，假设数据集目录名称为lcqmc
+        你需要下载预训练的模型，并放入到项目当前项目，假设目录名称为albert_large_zh; 需要下载LCQMC数据集，并放入到当前项目，
+        假设数据集目录名称为lcqmc
        
 
 #### 技术交流与问题讨论QQ群: 836811304 Join us on QQ group
 
 If you have any question, you can raise an issue, or send me an email: brightmart@hotmail.com;
+
+Currently how to use PyTorch version of albert is not clear yet, if you know how to do that, just email us or open an issue.
 
 You can also send pull request to report you performance on your task or add methods on how to load models for PyTorch and so on.
 
@@ -230,9 +236,9 @@ If you have ideas for generate best performance pre-training Chinese model, plea
 
 ##### Research supported with Cloud TPUs from Google's TensorFlow Research Cloud (TFRC)
 
-Cite
+Cite Us
 -----------------------------------------------
-Bright Liang Xu, albert_zh, (2019),GitHub repository,https://github.com/brightmart/albert_zh
+Bright Liang Xu, albert_zh, (2019), GitHub repository, https://github.com/brightmart/albert_zh
 
 Reference
 -----------------------------------------------
