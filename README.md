@@ -6,7 +6,7 @@ ALBert is based on Bert, but with some improvements. It achieves state of the ar
 
 For albert_base_zh it only has ten percentage parameters compare of original bert model, and main accuracy is retained. 
 
-Chinese version of ALBERT pre-trained model, including checkpoints both for TensorFlow and PyTorch, will be available. 
+Chinese version of ALBERT pre-trained model, including checkpoints for TensorFlow, Keras and PyTorch, will be available. 
 
 海量中文语料上预训练ALBERT模型：参数更少，效果更好。预训练小模型也能拿下13项NLP任务，ALBERT三大改造登顶GLUE基准
 
@@ -207,6 +207,8 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 
 下游任务 Fine-tuning
 -----------------------------------------------
+使用TensorFlow:
+
 以使用albert_base做LCQMC任务为例。LCQMC任务是在口语化描述的数据集上做文本的相似性预测。
 
 We will use LCQMC dataset for fine-tuning, it is oral language corpus, it is used to train and predict semantic similarity of a pair of sentences.
@@ -232,6 +234,9 @@ We will use LCQMC dataset for fine-tuning, it is oral language corpus, it is use
         你需要下载预训练的模型，并放入到项目当前项目，假设目录名称为albert_large_zh; 需要下载LCQMC数据集，并放入到当前项目，
         假设数据集目录名称为lcqmc
        
+使用Keras:
+
+<a href="https://github.com/bojone/bert4keras">bert4keras</a> 适配albert，能成功加载albert_zh的权重，只需要在load_pretrained_model函数里加上albert=True。
 
 #### 技术交流与问题讨论QQ群: 836811304 Join us on QQ group
 
@@ -264,6 +269,8 @@ Reference
 6、<a href="https://github.com/ymcui/LAMB_Optimizer_TF">LAMB Optimizer,TensorFlow version</a>
 
 7、<a href="http://baijiahao.baidu.com/s?id=1645712785366950083&wfr=spider&for=pc">预训练小模型也能拿下13项NLP任务，ALBERT三大改造登顶GLUE基准</a>
+
+8、<a href="https://github.com/bojone/bert4keras">bert4keras</a>
 
 
 
