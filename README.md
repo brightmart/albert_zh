@@ -183,13 +183,18 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 
 #### 生成特定格式的文件(tfrecords) Generate tfrecords Files
 
-运行以下命令即可。项目自动了一个示例的文本文件(data/news_zh_1.txt)
+Run following command 运行以下命令即可。项目自动了一个示例的文本文件(data/news_zh_1.txt)
    
        bash create_pretrain_data.sh
    
 如果你有很多文本文件，可以通过传入参数的方式，生成多个特定格式的文件(tfrecords）
 
-#### 执行预训练 pre-training on GPU/TPU
+###### Support English and Other Non-Chinese Language: 
+    If you are doing pre-train fro english or other language,which is not chinese, 
+    you should to set hyperparameter of non_chinese to True on create_pretraining_data.py; 
+    otherwise, by default it is doing chinese pre-train using whole word mask of chinese.
+
+#### 执行预训练 pre-training on GPU/TPU using the command
     GPU:
     export BERT_BASE_DIR=albert_config
     nohup python3 run_pretraining.py --input_file=./data/tf*.tfrecord  \
@@ -205,7 +210,7 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
     如果你从现有的模型基础上训练，指定一下BERT_BASE_DIR的路径，并确保bert_config_file和init_checkpoint两个参数的值能对应到相应的文件上；
     领域上的预训练，根据数据的大小，可以不用训练特别久。
 
-下游任务 Fine-tuning
+下游任务 Fine-tuning on Downstream Task
 -----------------------------------------------
 使用TensorFlow:
 
@@ -230,13 +235,17 @@ We will use LCQMC dataset for fine-tuning, it is oral language corpus, it is use
         --output_dir=albert_large_lcqmc_checkpoints --init_checkpoint=$BERT_BASE_DIR/bert_model.ckpt &
         
     Notice/注：
-        you need to download pre-trained chinese albert model, and also download LCQMC dataset 
+        1) you need to download pre-trained chinese albert model, and also download LCQMC dataset 
         你需要下载预训练的模型，并放入到项目当前项目，假设目录名称为albert_large_zh; 需要下载LCQMC数据集，并放入到当前项目，
         假设数据集目录名称为lcqmc
-       
+
+        2) for Fine-tuning, you can try to add small percentage of dropout(e.g. 0.1) by changing parameters of 
+          attention_probs_dropout_prob & hidden_dropout_prob on albert_config_xxx.json. By default, we set dropout as zero.  
+      
 使用Keras:
 
 <a href="https://github.com/bojone/bert4keras">bert4keras</a> 适配albert，能成功加载albert_zh的权重，只需要在load_pretrained_model函数里加上albert=True。
+
 
 #### 技术交流与问题讨论QQ群: 836811304 Join us on QQ group
 
