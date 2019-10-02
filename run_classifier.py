@@ -656,7 +656,7 @@ class LCQMCPairClassificationProcessor(DataProcessor): # TODO NEED CHANGE2
   def get_dev_examples(self, data_dir):
     """See base class."""
     return self._create_examples(
-        self._read_tsv(os.path.join(data_dir, "test.txt")), "dev") # todo change temp for test purpose
+        self._read_tsv(os.path.join(data_dir, "dev.txt")), "dev") # todo change temp for test purpose
 
   def get_test_examples(self, data_dir):
     """See base class."""
@@ -891,7 +891,7 @@ def main(_):
         drop_remainder=eval_drop_remainder)
 
     #######################################################################################################################
-    # evaluate 所有的checkpoint
+    # evaluate all checkpoints; you can use the checkpoint with the best dev accuarcy
     steps_and_files = []
     filenames = tf.gfile.ListDirectory(FLAGS.output_dir)
     for filename in filenames:
@@ -903,7 +903,7 @@ def main(_):
             steps_and_files.append([global_step, cur_filename])
     steps_and_files = sorted(steps_and_files, key=lambda x: x[0])
 
-    output_eval_file = os.path.join(FLAGS.data_dir, "eval_results16-layer24-4million-2.txt") # finetuning-layer24-4million
+    output_eval_file = os.path.join(FLAGS.data_dir, "eval_results_albert_zh.txt")
     print("output_eval_file:",output_eval_file)
     tf.logging.info("output_eval_file:"+output_eval_file)
     with tf.gfile.GFile(output_eval_file, "w") as writer:

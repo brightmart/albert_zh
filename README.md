@@ -2,32 +2,40 @@
 
 An Implementation of <a href="https://arxiv.org/pdf/1909.11942.pdf">A Lite Bert For Self-Supervised Learning Language Representations</a> with TensorFlow
 
-ALBert is based on Bert, but with some improvements. It achieve state of the art performance on main benchmarks 
+ALBert is based on Bert, but with some improvements. It achieves state of the art performance on main benchmarks with 30% parameters less. 
 
-recently, but with 30% parameters less or more. For albert_base it only has ten percentage parameters compare of original 
-
-bert model, and main accuracy is retained. 
+For albert_base_zh it only has ten percentage parameters compare of original bert model, and main accuracy is retained. 
 
 Chinese version of ALBERT pre-trained model, including checkpoints both for TensorFlow and PyTorch, will be available. 
 
 海量中文语料上预训练ALBERT模型：参数更少，效果更好。预训练小模型也能拿下13项NLP任务，ALBERT三大改造登顶GLUE基准
 
-*** UPDATE, 2019-10-01 ***  
+**\*\*\*\*\* 2019-10-02: albert_large_zh \*\*\*\*\***
 
-    Relesed albert_base_zh with only 10% parameters of bert_base, very small model(40M) & training can be very fast. 
+Relased albert_large_zh with only 16% parameters of bert_base(64M)
 
-*** UPDATE, 2019-09-28 ***  add code for three main changes of albert from bert and its test functions
+**\*\*\*\*\* 2019-10-01: albert_base_zh \*\*\*\*\***
+
+Relesed albert_base_zh with only 10% parameters of bert_base, a small model(40M) & training can be very fast. 
+
+**\*\*\*\*\* 2019-09-28: codes and test functions \*\*\*\*\*** 
+
+Add codes and test functions for three main changes of albert from bert
 
 模型下载 Download Pre-trained Models of Chinese
 -----------------------------------------------
-1、<a href="https://storage.googleapis.com/albert_zh/albert_base_zh.zip">albert_base_zh(小模型体验版)</a>, 参数量12M, 层数12，大小为40M
+1、<a href="https://storage.googleapis.com/albert_zh/albert_large_zh.zip">albert_large_zh</a>,参数量，层数24，大小为64M
+   
+    参数量和模型大小为bert_base的六分之一；在口语化描述相似性数据集LCQMC的测试集上相比bert_base上升0.2个点
+
+2、<a href="https://storage.googleapis.com/albert_zh/albert_base_zh.zip">albert_base_zh(小模型体验版)</a>, 参数量12M, 层数12，大小为40M
 
     参数量为bert_base的十分之一，模型大小也十分之一；在口语化描述相似性数据集LCQMC的测试集上相比bert_base下降约1个点；
     相比未预训练，albert_base提升14个点
 
-2、albert_large, albert_xlarge, albert_xxlarge, coming soon.
+3、albert_xlarge, albert_xxlarge will coming recently.
 
-    if you want albert model with best performance, there is still a few days to go.
+    if you want use a albert model with best performance among all pre-trained models, just wait a few days.
 
 ALBERT模型介绍 Introduction of ALBERT
 -----------------------------------------------
@@ -145,6 +153,7 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 | RoBERTa-zh-Large | ***89.9(89.6)*** | ***87.2(86.7)*** |
 | RoBERTa-zh-Large(20w_steps) | 89.7| 87.0 |
 | ALBERT-zh-base | 86.4 | 86.3 |
+| ALBERT-large | 88.7 | 87.1 |
 | ALBERT-xlarge | ? | ? |
 | ALBERT-xxlarge | ? | ? |
 
