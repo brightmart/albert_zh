@@ -152,7 +152,7 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 | RoBERTa-zh-base | 88.7 | 87.0  |
 | RoBERTa-zh-Large | ***89.9(89.6)*** | ***87.2(86.7)*** |
 | RoBERTa-zh-Large(20w_steps) | 89.7| 87.0 |
-| ALBERT-zh-base | 86.4 | 86.3 |
+| ALBERT-zh-base | 87.2 | 86.3 |
 | ALBERT-large | 88.7 | 87.1 |
 | ALBERT-xlarge | ? | ? |
 | ALBERT-xxlarge | ? | ? |
@@ -191,7 +191,7 @@ Run following command 运行以下命令即可。项目自动了一个示例的�
 
 ###### Support English and Other Non-Chinese Language: 
     If you are doing pre-train fro english or other language,which is not chinese, 
-    you should to set hyperparameter of non_chinese to True on create_pretraining_data.py; 
+    you should set hyperparameter of non_chinese to True on create_pretraining_data.py; 
     otherwise, by default it is doing chinese pre-train using whole word mask of chinese.
 
 #### 执行预训练 pre-training on GPU/TPU using the command
@@ -203,7 +203,7 @@ Run following command 运行以下命令即可。项目自动了一个示例的�
     --num_train_steps=125000 --num_warmup_steps=12500 --learning_rate=0.00176    \
     --save_checkpoints_steps=2000   --init_checkpoint=$BERT_BASE_DIR/bert_model.ckpt &
     
-    TPU, add following information:
+    TPU, add something like this:
         --use_tpu=True  --tpu_name=grpc://10.240.1.66:8470 --tpu_zone=us-central1-a
         
     注：如果你重头开始训练，可以不指定init_checkpoint；

@@ -427,9 +427,9 @@ def main(_):
     tf.logging.info("  %s" % input_file)
 
   tpu_cluster_resolver = None
-  #if FLAGS.use_tpu and FLAGS.tpu_name:
-  tpu_cluster_resolver = tf.contrib.cluster_resolver.TPUClusterResolver( # TODO
-        tpu=FLAGS.tpu_name, zone=FLAGS.tpu_zone, project=FLAGS.gcp_project)
+  if FLAGS.use_tpu and FLAGS.tpu_name:
+      tpu_cluster_resolver = tf.contrib.cluster_resolver.TPUClusterResolver( # TODO
+            tpu=FLAGS.tpu_name, zone=FLAGS.tpu_zone, project=FLAGS.gcp_project)
 
   print("###tpu_cluster_resolver:",tpu_cluster_resolver,";FLAGS.use_tpu:",FLAGS.use_tpu,";FLAGS.tpu_name:",FLAGS.tpu_name,";FLAGS.tpu_zone:",FLAGS.tpu_zone)
   # ###tpu_cluster_resolver: <tensorflow.python.distribute.cluster_resolver.tpu_cluster_resolver.TPUClusterResolver object at 0x7f4b387b06a0> ;FLAGS.use_tpu: True ;FLAGS.tpu_name: grpc://10.240.1.83:8470
