@@ -6,9 +6,16 @@ ALBert is based on Bert, but with some improvements. It achieves state of the ar
 
 For albert_base_zh it only has ten percentage parameters compare of original bert model, and main accuracy is retained. 
 
-Chinese version of ALBERT pre-trained model, including checkpoints for TensorFlow, Keras and PyTorch, will be available. 
+
+Different version of ALBERT pre-trained model for Chinese, including TensorFlow,PyTorch and  Keras, is available now.
 
 海量中文语料上预训练ALBERT模型：参数更少，效果更好。预训练小模型也能拿下13项NLP任务，ALBERT三大改造登顶GLUE基准
+
+**\*\*\*\*\* 2019-10-04: PyTorch and Keras versions of albert were supported \*\*\*\*\***
+
+Convert to PyTorch version and do your tasks through <a href="https://github.com/lonePatient/albert_pytorch">albert_pytorch</a>
+
+Load pre-trained model with keras using one line of codes through <a href="https://github.com/bojone/bert4keras">bert4keras</a>
 
 **\*\*\*\*\* 2019-10-02: albert_large_zh \*\*\*\*\***
 
@@ -212,7 +219,7 @@ Run following command 运行以下命令即可。项目自动了一个示例的�
 
 下游任务 Fine-tuning on Downstream Task
 -----------------------------------------------
-使用TensorFlow:
+##### 使用TensorFlow:
 
 以使用albert_base做LCQMC任务为例。LCQMC任务是在口语化描述的数据集上做文本的相似性预测。
 
@@ -241,11 +248,20 @@ We will use LCQMC dataset for fine-tuning, it is oral language corpus, it is use
 
         2) for Fine-tuning, you can try to add small percentage of dropout(e.g. 0.1) by changing parameters of 
           attention_probs_dropout_prob & hidden_dropout_prob on albert_config_xxx.json. By default, we set dropout as zero.  
-      
-使用Keras:
+ 
+##### 使用PyTorch:
 
-<a href="https://github.com/bojone/bert4keras">bert4keras</a> 适配albert，能成功加载albert_zh的权重，只需要在load_pretrained_model函数里加上albert=True。
+    download pre-trained model, and convert to PyTorch using:
+     
+      python convert_albert_tf_checkpoint_to_pytorch.py     
+     
+   using <a href="https://github.com/lonePatient/albert_pytorch">albert_pytorch
+   
+##### 使用Keras:
 
+<a href="https://github.com/bojone/bert4keras">bert4keras</a> 适配albert，能成功加载albert_zh的权重，只需要在load_pretrained_model函数里加上albert=True
+
+load pre-trained model with bert4keras
 
 #### 技术交流与问题讨论QQ群: 836811304 Join us on QQ group
 

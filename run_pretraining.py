@@ -128,7 +128,7 @@ def model_fn_builder(bert_config, init_checkpoint, learning_rate,
 
     is_training = (mode == tf.estimator.ModeKeys.TRAIN)
 
-    model = modeling.BertModel(
+    model = modeling_preln.BertModel(
         config=bert_config,
         is_training=is_training,
         input_ids=input_ids,
@@ -154,7 +154,7 @@ def model_fn_builder(bert_config, init_checkpoint, learning_rate,
     scaffold_fn = None
     if init_checkpoint:
       (assignment_map, initialized_variable_names
-      ) = modeling.get_assignment_map_from_checkpoint(tvars, init_checkpoint)
+      ) = modeling_preln.get_assignment_map_from_checkpoint(tvars, init_checkpoint)
       if use_tpu:
 
         def tpu_scaffold():
@@ -250,10 +250,10 @@ def get_masked_lm_output(bert_config, input_tensor, output_weights,project_weigh
       input_tensor = tf.layers.dense(
           input_tensor,
           units=bert_config.hidden_size,
-          activation=modeling.get_activation(bert_config.hidden_act),
-          kernel_initializer=modeling.create_initializer(
+          activation=modeling_preln.get_activation(bert_config.hidden_act),
+          kernel_initializer=modeling_preln.create_initializer(
               bert_config.initializer_range))
-      input_tensor = modeling.layer_norm(input_tensor)
+      input_tensor = modeling_preln.layer_norm(input_tensor)
 
     # The output weights are the same as the input embeddings, but there is
     # an output-only bias for each token.
@@ -296,7 +296,7 @@ def get_next_sentence_output(bert_config, input_tensor, labels):
     output_weights = tf.get_variable(
         "output_weights",
         shape=[2, bert_config.hidden_size],
-        initializer=modeling.create_initializer(bert_config.initializer_range))
+        initializer=modeling_preln.create_initializer(bert_config.initializer_range))
     output_bias = tf.get_variable(
         "output_bias", shape=[2], initializer=tf.zeros_initializer())
 
@@ -312,7 +312,7 @@ def get_next_sentence_output(bert_config, input_tensor, labels):
 
 def gather_indexes(sequence_tensor, positions):
   """Gathers the vectors at the specific positions over a minibatch."""
-  sequence_shape = modeling.get_shape_list(sequence_tensor, expected_rank=3)
+  sequence_shape = modeling_preln.get_shape_list(sequence_tensor, expected_rank=3)
   batch_size = sequence_shape[0]
   seq_length = sequence_shape[1]
   width = sequence_shape[2]
@@ -414,7 +414,7 @@ def main(_):
   if not FLAGS.do_train and not FLAGS.do_eval: # 必须是训练或验证的类型
     raise ValueError("At least one of `do_train` or `do_eval` must be True.")
 
-  bert_config = modeling.BertConfig.from_json_file(FLAGS.bert_config_file) # 从json文件中获得配置信息
+  bert_config = modeling_preln.BertConfig.from_json_file(FLAGS.bert_config_file) # 从json文件中获得配置信息
 
   tf.gfile.MakeDirs(FLAGS.output_dir)
 
