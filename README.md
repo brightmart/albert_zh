@@ -7,7 +7,7 @@ ALBert is based on Bert, but with some improvements. It achieves state of the ar
 For albert_base_zh it only has ten percentage parameters compare of original bert model, and main accuracy is retained. 
 
 
-Different version of ALBERT pre-trained model for Chinese, including TensorFlow,PyTorch and  Keras, is available now.
+Different version of ALBERT pre-trained model for Chinese, including TensorFlow, PyTorch and Keras, is available now.
 
 海量中文语料上预训练ALBERT模型：参数更少，效果更好。预训练小模型也能拿下13项NLP任务，ALBERT三大改造登顶GLUE基准
 
@@ -84,14 +84,14 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 
 其他变化，还有 Other changes：
 
-    1）去掉了dropout  Remvoe dropout to enlarge capacity of model.
+    1）去掉了dropout  Remove dropout to enlarge capacity of model.
         最大的模型，训练了1百万步后，还是没有过拟合训练数据。说明模型的容量还可以更大，就移除了dropout
         （dropout可以认为是随机的去掉网络中的一部分，同时使网络变小一些）
         We also note that, even after training for 1M steps, our largest models still do not overfit to their training data. 
         As a result, we decide to remove dropout to further increase our model capacity.
         其他型号的模型，在我们的实现中我们还是会保留原始的dropout的比例，防止模型对训练数据的过拟合。
         
-    2）为加快训练速度，使用LAMB做为优化器 Use lAMB as optimizer, to train with big batch size
+    2）为加快训练速度，使用LAMB做为优化器 Use LAMB as optimizer, to train with big batch size
       使用了大的batch_size来训练(4096)。 LAMB优化器使得我们可以训练，特别大的批次batch_size，如高达6万。
     
     3）使用n-gram(uni-gram,bi-gram, tri-gram）来做遮蔽语言模型 Use n-gram as make language model
