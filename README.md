@@ -11,11 +11,15 @@ Different version of ALBERT pre-trained model for Chinese, including TensorFlow,
 
 海量中文语料上预训练ALBERT模型：参数更少，效果更好。预训练小模型也能拿下13项NLP任务，ALBERT三大改造登顶GLUE基准
 
+##### Update
+
 **\*\*\*\*\* 2019-10-04: PyTorch and Keras versions of albert were supported \*\*\*\*\***
 
 Convert to PyTorch version and do your tasks through <a href="https://github.com/lonePatient/albert_pytorch">albert_pytorch</a>
 
 Load pre-trained model with keras using one line of codes through <a href="https://github.com/bojone/bert4keras">bert4keras</a>
+
+Releasing albert_xlarge on 6th Oct
 
 **\*\*\*\*\* 2019-10-02: albert_large_zh \*\*\*\*\***
 
@@ -237,7 +241,7 @@ We will use LCQMC dataset for fine-tuning, it is oral language corpus, it is use
     
         export BERT_BASE_DIR=./albert_large_zh
         export TEXT_DIR=./lcqmc
-        nohup python3 run_classifier.py   --task_name=lcqmc_pair   --do_train=False   --do_eval=true   --data_dir=$TEXT_DIR   --vocab_file=./albert_config/vocab.txt  \
+        nohup python3 run_classifier.py   --task_name=lcqmc_pair   --do_train=true   --do_eval=true   --data_dir=$TEXT_DIR   --vocab_file=./albert_config/vocab.txt  \
         --bert_config_file=./albert_config/albert_config_large.json --max_seq_length=128 --train_batch_size=64   --learning_rate=2e-5  --num_train_epochs=3 \
         --output_dir=albert_large_lcqmc_checkpoints --init_checkpoint=$BERT_BASE_DIR/bert_model.ckpt &
         
