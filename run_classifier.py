@@ -426,6 +426,13 @@ def create_model(bert_config, is_training, input_ids, input_mask, segment_ids,
       "output_bias", [num_labels], initializer=tf.zeros_initializer())
 
   with tf.variable_scope("loss"):
+    ln_type = bert_config.ln_type
+    if ln_type == 'preln': # add by brightmart, 10-06. if it is preln, we need to an additonal layer: layer normalization as suggested in paper "ON LAYER NORMALIZATION IN THE TRANSFORMER ARCHITECTURE"
+        print("ln_type is preln. add LN layer.")
+        output_layer=layer_norm(output_layer)
+    else:
+        print("ln_type is postln or other,do nothing.")
+
     if is_training:
       # I.e., 0.1 dropout
       output_layer = tf.nn.dropout(output_layer, keep_prob=0.9)
@@ -450,6 +457,10 @@ def create_model(bert_config, is_training, input_ids, input_mask, segment_ids,
 
     return (loss, per_example_loss, logits, probabilities)
 
+def layer_norm(input_tensor, name=None):
+  """Run layer normalization on the last dimension of the tensor."""
+  return tf.contrib.layers.layer_norm(
+      inputs=input_tensor, begin_norm_axis=-1, begin_params_axis=-1, scope=name)
 
 def model_fn_builder(bert_config, num_labels, init_checkpoint, learning_rate,
                      num_train_steps, num_warmup_steps, use_tpu,
