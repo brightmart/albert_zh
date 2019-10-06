@@ -13,6 +13,12 @@ Different version of ALBERT pre-trained model for Chinese, including TensorFlow,
 
 ##### Update
 
+**\*\*\*\*\* 2019-10-06: albert_xlarge_zh  \*\*\*\*\***
+
+Released albert_xlarge_zh, 59M parameters, half parameters of bert_base, 200M. 
+
+rank top 1 for LCQMC dataset up to now, up 0.5 percentage
+
 **\*\*\*\*\* 2019-10-04: PyTorch and Keras versions of albert were supported \*\*\*\*\***
 
 Convert to PyTorch version and do your tasks through <a href="https://github.com/lonePatient/albert_pytorch">albert_pytorch</a>
@@ -21,13 +27,11 @@ Load pre-trained model with keras using one line of codes through <a href="https
 
 Releasing albert_xlarge on 6th Oct
 
-**\*\*\*\*\* 2019-10-02: albert_large_zh \*\*\*\*\***
-
-Relased albert_large_zh with only 16% parameters of bert_base(64M)
-
-**\*\*\*\*\* 2019-10-01: albert_base_zh \*\*\*\*\***
+**\*\*\*\*\* 2019-10-02: albert_large_zh,albert_base_zh \*\*\*\*\***
 
 Relesed albert_base_zh with only 10% parameters of bert_base, a small model(40M) & training can be very fast. 
+
+Relased albert_large_zh with only 16% parameters of bert_base(64M)
 
 **\*\*\*\*\* 2019-09-28: codes and test functions \*\*\*\*\*** 
 
@@ -35,16 +39,21 @@ Add codes and test functions for three main changes of albert from bert
 
 模型下载 Download Pre-trained Models of Chinese
 -----------------------------------------------
-1、<a href="https://storage.googleapis.com/albert_zh/albert_large_zh.zip">albert_large_zh</a>,参数量，层数24，大小为64M
+1、<a href="https://storage.googleapis.com/albert_zh/albert_xlarge_zh.zip">albert_xlarge_zh</a>,参数量，层数24，文件大小为230M
+    
+    参数量和模型大小为bert_base的二分之一；在口语化描述相似性数据集LCQMC的测试集上相比bert_base上升0.8个点；需要一张大的显卡
+
+
+2、<a href="https://storage.googleapis.com/albert_zh/albert_large_zh.zip">albert_large_zh</a>,参数量，层数24，文件大小为64M
    
     参数量和模型大小为bert_base的六分之一；在口语化描述相似性数据集LCQMC的测试集上相比bert_base上升0.2个点
 
-2、<a href="https://storage.googleapis.com/albert_zh/albert_base_zh.zip">albert_base_zh(小模型体验版)</a>, 参数量12M, 层数12，大小为40M
+3、<a href="https://storage.googleapis.com/albert_zh/albert_base_zh.zip">albert_base_zh(小模型体验版)</a>, 参数量12M, 层数12，大小为40M
 
     参数量为bert_base的十分之一，模型大小也十分之一；在口语化描述相似性数据集LCQMC的测试集上相比bert_base下降约1个点；
     相比未预训练，albert_base提升14个点
 
-3、albert_xlarge, albert_xxlarge will coming recently.
+4、albert_xxlarge may coming recently.
 
     if you want use a albert model with best performance among all pre-trained models, just wait a few days.
 
@@ -161,12 +170,14 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 | BERT-wwm |89.4 (89.2) | 87.0 (86.8) | 
 | BERT-wwm-ext | - |-  |
 | RoBERTa-zh-base | 88.7 | 87.0  |
-| RoBERTa-zh-Large | ***89.9(89.6)*** | ***87.2(86.7)*** |
+| RoBERTa-zh-Large | ***89.9(89.6)*** | 87.2(86.7) |
 | RoBERTa-zh-Large(20w_steps) | 89.7| 87.0 |
 | ALBERT-zh-base | 87.2 | 86.3 |
 | ALBERT-large | 88.7 | 87.1 |
-| ALBERT-xlarge | ? | ? |
+| ALBERT-xlarge | 87.3 | ***87.7*** |
 | ALBERT-xxlarge | ? | ? |
+
+注：只跑了一次ALBERT-xlarge，效果还可能提升
 
 ### 语言模型、文本段预测准确性、训练时间 Mask Language Model Accuarcy & Training Time
 
@@ -266,6 +277,31 @@ We will use LCQMC dataset for fine-tuning, it is oral language corpus, it is use
 <a href="https://github.com/bojone/bert4keras">bert4keras</a> 适配albert，能成功加载albert_zh的权重，只需要在load_pretrained_model函数里加上albert=True
 
 load pre-trained model with bert4keras
+
+
+12G显存机器-支持的序列长度与批次大小的关系 Trade off between batch Size and sequence length
+-------------------------------------------------
+
+System       | Seq Length | Max Batch Size
+------------ | ---------- | --------------
+`albert-base`  | 64         | 64
+...          | 128        | 32
+...          | 256        | 16
+...          | 320        | 14
+...          | 384        | 12
+...          | 512        | 6
+`albert-large` | 64         | 12
+...          | 128        | 6
+...          | 256        | 2
+...          | 320        | 1
+...          | 384        | 0
+...          | 512        | 0
+`albert-xlarge` | -         | -
+
+Training Loss of xlarge of albert_zh
+-------------------------------------------------
+<img src="https://github.com/brightmart/albert_zh/blob/master/resources/xlarge_loss.jpg"  width="80%" height="40%" />
+
 
 #### 技术交流与问题讨论QQ群: 836811304 Join us on QQ group
 
