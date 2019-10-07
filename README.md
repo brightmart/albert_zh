@@ -298,9 +298,13 @@ System       | Seq Length | Max Batch Size
 ...          | 512        | 0
 `albert-xlarge` | -         | -
 
-Training Loss of xlarge of albert_zh
+学习曲线 Training Loss of xlarge of albert_zh
 -------------------------------------------------
 <img src="https://github.com/brightmart/albert_zh/blob/master/resources/xlarge_loss.jpg"  width="80%" height="40%" />
+
+所有的参数 Parameters of albert_xlarge
+-------------------------------------------------
+<img src="https://github.com/brightmart/albert_zh/blob/master/resources/albert_large_zh_parameters.jpg"  width="80%" height="40%" />
 
 
 #### 技术交流与问题讨论QQ群: 836811304 Join us on QQ group
