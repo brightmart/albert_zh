@@ -18,6 +18,6 @@
   "pooler_type": "first_token_transform", 
   "type_vocab_size": 2, 
   "vocab_size": 21128,
-  "ln_type":"preln"
+  "ln_type":"postln"
 
 }
