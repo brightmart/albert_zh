@@ -39,7 +39,7 @@ Add codes and test functions for three main changes of albert from bert
 
 模型下载 Download Pre-trained Models of Chinese
 -----------------------------------------------
-1、<a href="https://storage.googleapis.com/albert_zh/albert_xlarge_zh.zip">albert_xlarge_zh</a>,参数量，层数24，文件大小为230M
+1、<a href="#">albert_xlarge_zh，本周将更新一个更好版本，敬请期待</a>,参数量，层数24，文件大小为230M
     
     参数量和模型大小为bert_base的二分之一；在口语化描述相似性数据集LCQMC的测试集上相比bert_base上升0.8个点；需要一张大的显卡
 
