@@ -156,6 +156,8 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 | XLNet | 79.2  | 78.7 |
 | RoBERTa-zh-base | 79.8 |78.8  |
 | RoBERTa-zh-Large | 80.2 (80.0) | 79.9 (79.5) |
+| ALBERT-base | 77.0 | 77.1 |
+| ALBERT-large | 78.0 | 77.5 |
 | ALBERT-xlarge | ? | ? |
 | ALBERT-xxlarge | ? | ? |
 
