@@ -13,6 +13,11 @@ Different version of ALBERT pre-trained model for Chinese, including TensorFlow,
 
 ##### Update
 
+
+**\*\*\*\*\* 2019-10-11: albert with TensorFlow 2.0 \*\*\*\*\***
+
+Use or load pre-trained model with tf2.0 through <a href="https://github.com/kpe/bert-for-tf2">bert-for-tf2</a>
+
 **\*\*\*\*\* 2019-10-06: albert_xlarge_zh  \*\*\*\*\***
 
 Released albert_xlarge_zh, 59M parameters, half parameters of bert_base, 200M. 
