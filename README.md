@@ -221,7 +221,7 @@ Run following command 运行以下命令即可。项目自动了一个示例的�
 如果你有很多文本文件，可以通过传入参数的方式，生成多个特定格式的文件(tfrecords）
 
 ###### Support English and Other Non-Chinese Language: 
-    If you are doing pre-train fro english or other language,which is not chinese, 
+    If you are doing pre-train for english or other language,which is not chinese, 
     you should set hyperparameter of non_chinese to True on create_pretraining_data.py; 
     otherwise, by default it is doing chinese pre-train using whole word mask of chinese.
 
