@@ -13,6 +13,7 @@ Different version of ALBERT pre-trained model for Chinese, including TensorFlow,
 
 ##### Update
 
+**\*\*\*\*\* 2019-10-13: add albert_xlarge_zh; albert_base_zh_additional_steps, training with additional 150 Million instances) \*\*\*\*\***
 
 **\*\*\*\*\* 2019-10-11: albert with TensorFlow 2.0 \*\*\*\*\***
 
@@ -44,18 +45,18 @@ Add codes and test functions for three main changes of albert from bert
 
 模型下载 Download Pre-trained Models of Chinese
 -----------------------------------------------
-1、<a href="#">albert_xlarge_zh，本周将更新一个更好版本，敬请期待</a>,参数量，层数24，文件大小为230M
-    
-    参数量和模型大小为bert_base的二分之一；在口语化描述相似性数据集LCQMC的测试集上相比bert_base上升0.8个点；需要一张大的显卡
+1、<a href="https://storage.googleapis.com/albert_zh/albert_xlarge_zh_177k.zip">albert_xlarge_zh_177k </a>; <a href="https://storage.googleapis.com/albert_zh/albert_xlarge_zh_183k.zip"> albert_xlarge_zh_183k</a> ,参数量，层数24，文件大小为230M
+   
+    参数量和模型大小为bert_base的二分之一；需要一张大的显卡；完整测试对比将后续添加
 
 
 2、<a href="https://storage.googleapis.com/albert_zh/albert_large_zh.zip">albert_large_zh</a>,参数量，层数24，文件大小为64M
    
     参数量和模型大小为bert_base的六分之一；在口语化描述相似性数据集LCQMC的测试集上相比bert_base上升0.2个点
 
-3、<a href="https://storage.googleapis.com/albert_zh/albert_base_zh.zip">albert_base_zh(小模型体验版)</a>, 参数量12M, 层数12，大小为40M
+3、<a href="https://storage.googleapis.com/albert_zh/albert_base_zh_additional_36k_steps.zip">albert_base_zh(额外训练了1.5亿个实例即 36k steps * batch_size 4096)</a>; <a href="https://storage.googleapis.com/albert_zh/albert_base_zh.zip"> albert_base_zh(小模型体验版)</a>, 参数量12M, 层数12，大小为40M
 
-    参数量为bert_base的十分之一，模型大小也十分之一；在口语化描述相似性数据集LCQMC的测试集上相比bert_base下降约1个点；
+    参数量为bert_base的十分之一，模型大小也十分之一；在口语化描述相似性数据集LCQMC的测试集上相比bert_base下降约0.6~1个点；
     相比未预训练，albert_base提升14个点
 
 4、albert_xxlarge may coming recently.
@@ -179,6 +180,7 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 | RoBERTa-zh-base | 88.7 | 87.0  |
 | RoBERTa-zh-Large | ***89.9(89.6)*** | 87.2(86.7) |
 | RoBERTa-zh-Large(20w_steps) | 89.7| 87.0 |
+| ALBERT-zh-base-additional-36k-steps | 87.8 | 86.3 |
 | ALBERT-zh-base | 87.2 | 86.3 |
 | ALBERT-large | 88.7 | 87.1 |
 | ALBERT-xlarge | 87.3 | ***87.7*** |
