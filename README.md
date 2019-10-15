@@ -187,7 +187,6 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 | RoBERTa-zh-Large | ***89.9(89.6)*** | 87.2(86.7) |
 | RoBERTa-zh-Large(20w_steps) | 89.7| 87.0 |
 | ALBERT-zh-tiny | -- | 85.4 |
-
 | ALBERT-zh-base-additional-36k-steps | 87.8 | 86.3 |
 | ALBERT-zh-base | 87.2 | 86.3 |
 | ALBERT-large | 88.7 | 87.1 |
