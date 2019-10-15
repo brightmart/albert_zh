@@ -12,6 +12,7 @@ Different version of ALBERT pre-trained model for Chinese, including TensorFlow,
 海量中文语料上预训练ALBERT模型：参数更少，效果更好。预训练小模型也能拿下13项NLP任务，ALBERT三大改造登顶GLUE基准
 
 ##### Update
+**\*\*\*\*\* 2019-10-15: add albert_tiny_zh, speed 10 times fast than bert base for training and inference, accuracy remains: only 1.5 percentage less \*\*\*\*\***
 
 **\*\*\*\*\* 2019-10-13: add albert_xlarge_zh; albert_base_zh_additional_steps, training with additional 150 Million instances) \*\*\*\*\***
 
@@ -45,10 +46,11 @@ Add codes and test functions for three main changes of albert from bert
 
 模型下载 Download Pre-trained Models of Chinese
 -----------------------------------------------
-1、<a href="https://storage.googleapis.com/albert_zh/albert_xlarge_zh_177k.zip">albert_xlarge_zh_177k </a>; <a href="https://storage.googleapis.com/albert_zh/albert_xlarge_zh_183k.zip"> albert_xlarge_zh_183k</a> ,参数量，层数24，文件大小为230M
-   
-    参数量和模型大小为bert_base的二分之一；需要一张大的显卡；完整测试对比将后续添加
+1、<a href="https://storage.googleapis.com/albert_zh/albert_tiny.zip">albert_tiny_zh</a>, 文件大小16M
 
+    训练和推理预测速度提升10倍，精度基本保留，模型大小为bert的1/25；在语义相似度数据集LCQMC的测试集上达到85.4%，相比bert_base仅下降1.5个点。
+
+    lcqmc训练使用如下参数： --max_seq_length=128 --train_batch_size=64   --learning_rate=1e-4   --num_train_epochs=5 \
 
 2、<a href="https://storage.googleapis.com/albert_zh/albert_large_zh.zip">albert_large_zh</a>,参数量，层数24，文件大小为64M
    
@@ -59,9 +61,11 @@ Add codes and test functions for three main changes of albert from bert
     参数量为bert_base的十分之一，模型大小也十分之一；在口语化描述相似性数据集LCQMC的测试集上相比bert_base下降约0.6~1个点；
     相比未预训练，albert_base提升14个点
 
-4、albert_xxlarge may coming recently.
+4、<a href="https://storage.googleapis.com/albert_zh/albert_xlarge_zh_177k.zip">albert_xlarge_zh_177k </a>; 
+<a href="https://storage.googleapis.com/albert_zh/albert_xlarge_zh_183k.zip"></a>参数量，层数24，文件大小为230M
+   
+    参数量和模型大小为bert_base的二分之一；需要一张大的显卡；完整测试对比将后续添加
 
-    if you want use a albert model with best performance among all pre-trained models, just wait a few days.
 
 ALBERT模型介绍 Introduction of ALBERT
 -----------------------------------------------
