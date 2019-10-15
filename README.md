@@ -11,6 +11,8 @@ Different version of ALBERT pre-trained model for Chinese, including TensorFlow,
 
 海量中文语料上预训练ALBERT模型：参数更少，效果更好。预训练小模型也能拿下13项NLP任务，ALBERT三大改造登顶GLUE基准
 
+更多数据集、基线模型、不同任务上模型效果的详细对比，见<a href="https://github.com/chineseGLUE/chineseGLUE">中文任务基准测评chineseGLUE</a>
+
 ##### Update
 **\*\*\*\*\* 2019-10-15: add albert_tiny_zh, speed 10 times fast than bert base for training and inference, accuracy remains: only 1.5 percentage less \*\*\*\*\***
 
@@ -184,6 +186,8 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 | RoBERTa-zh-base | 88.7 | 87.0  |
 | RoBERTa-zh-Large | ***89.9(89.6)*** | 87.2(86.7) |
 | RoBERTa-zh-Large(20w_steps) | 89.7| 87.0 |
+| ALBERT-zh-tiny | -- | 85.4 |
+
 | ALBERT-zh-base-additional-36k-steps | 87.8 | 86.3 |
 | ALBERT-zh-base | 87.2 | 86.3 |
 | ALBERT-large | 88.7 | 87.1 |
