@@ -13,7 +13,7 @@ Different version of ALBERT pre-trained model for Chinese, including TensorFlow,
 
 更多数据集、基线模型、不同任务上模型效果的详细对比，见<a href="https://github.com/chineseGLUE/chineseGLUE">中文任务基准测评chineseGLUE</a>
 
-<img src="https://github.com/brightmart/albert_zh/blob/master/resources/albert_tiny_compare_s.jpg"  width="80%" height="40%" />
+<img src="https://github.com/brightmart/albert_zh/blob/master/resources/albert_tiny_compare_s.jpg"  width="80%" height="60%" />
 
 
 模型下载 Download Pre-trained Models of Chinese
@@ -42,8 +42,9 @@ Different version of ALBERT pre-trained model for Chinese, including TensorFlow,
    
     参数量和模型大小为bert_base的二分之一；需要一张大的显卡；完整测试对比将后续添加；batch_size不能太小，否则可能影响精度
 
-##### Update
-**\*\*\*\*\* 2019-10-15: add albert_tiny_zh, speed 10 times fast than bert base for training and inference, acc only 1.5 percentage less \*\*\*\*\***
+Updates
+-----------------------------------------------
+**\*\*\*\*\* 2019-10-15: albert_tiny_zh, 10 times fast than bert base for training and inference, accuracy remains \*\*\*\*\***
 
 **\*\*\*\*\* 2019-10-07: more models of albert \*\*\*\*\***
 
@@ -55,7 +56,7 @@ a.Convert to PyTorch version and do your tasks through <a href="https://github.c
 
 b.Load pre-trained model with keras using one line of codes through <a href="https://github.com/bojone/bert4keras">bert4keras</a>
 
-c. albert with TensorFlow 2.0: Use or load pre-trained model with tf2.0 through <a href="https://github.com/kpe/bert-for-tf2">bert-for-tf2</a>
+c.Use albert with TensorFlow 2.0: Use or load pre-trained model with tf2.0 through <a href="https://github.com/kpe/bert-for-tf2">bert-for-tf2</a>
 
 Releasing albert_xlarge on 6th Oct
 
@@ -161,7 +162,6 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 | ALBERT-base | 77.0 | 77.1 |
 | ALBERT-large | 78.0 | 77.5 |
 | ALBERT-xlarge | ? | ? |
-| ALBERT-xxlarge | ? | ? |
 
 注：BERT-wwm-ext来自于<a href="https://github.com/ymcui/Chinese-BERT-wwm">这里</a>；XLNet来自于<a href="https://github.com/ymcui/Chinese-PreTrained-XLNet">这里</a>; RoBERTa-zh-base，指12层RoBERTa中文模型
    
@@ -181,11 +181,12 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 | ALBERT-zh-base | 87.2 | 86.3 |
 | ALBERT-large | 88.7 | 87.1 |
 | ALBERT-xlarge | 87.3 | ***87.7*** |
-| ALBERT-xxlarge | ? | ? |
 
 注：只跑了一次ALBERT-xlarge，效果还可能提升
 
-<img src="https://github.com/brightmart/albert_zh/blob/master/resources/crmc2018_compare_s.jpg"  width="80%" height="40%" />
+###  阅读理解任务：CRMC2018
+
+<img src="https://github.com/brightmart/albert_zh/blob/master/resources/crmc2018_compare_s.jpg"  width="80%" height="60%" />
 
 
 ### 语言模型、文本段预测准确性、训练时间 Mask Language Model Accuarcy & Training Time
@@ -259,11 +260,11 @@ We will use LCQMC dataset for fine-tuning, it is oral language corpus, it is use
           
     2. Fine-tuning by running the following command：
     
-        export BERT_BASE_DIR=./albert_large_zh
+        export BERT_BASE_DIR=./albert_tiny_zh
         export TEXT_DIR=./lcqmc
         nohup python3 run_classifier.py   --task_name=lcqmc_pair   --do_train=true   --do_eval=true   --data_dir=$TEXT_DIR   --vocab_file=./albert_config/vocab.txt  \
-        --bert_config_file=./albert_config/albert_config_large.json --max_seq_length=128 --train_batch_size=64   --learning_rate=2e-5  --num_train_epochs=3 \
-        --output_dir=albert_large_lcqmc_checkpoints --init_checkpoint=$BERT_BASE_DIR/bert_model.ckpt &
+        --bert_config_file=./albert_config/albert_config_tiny.json --max_seq_length=128 --train_batch_size=64   --learning_rate=1e-4  --num_train_epochs=5 \
+        --output_dir=albert_lcqmc_checkpoints --init_checkpoint=$BERT_BASE_DIR/albert_model.ckpt &
         
     Notice/注：
         1) you need to download pre-trained chinese albert model, and also download LCQMC dataset 
@@ -271,9 +272,11 @@ We will use LCQMC dataset for fine-tuning, it is oral language corpus, it is use
         假设数据集目录名称为lcqmc
 
         2) for Fine-tuning, you can try to add small percentage of dropout(e.g. 0.1) by changing parameters of 
-          attention_probs_dropout_prob & hidden_dropout_prob on albert_config_xxx.json. By default, we set dropout as zero.  
+          attention_probs_dropout_prob & hidden_dropout_prob on albert_config_xxx.json. By default, we set dropout as zero. 
+        
+        3) you can try different learning rate {2e-5, 5e-5, 1e-4} for better performance 
  
-##### 使用PyTorch:
+##### 使用PyTorch版本:
 
     download pre-trained model, and convert to PyTorch using:
      
@@ -281,12 +284,15 @@ We will use LCQMC dataset for fine-tuning, it is oral language corpus, it is use
      
    using <a href="https://github.com/lonePatient/albert_pytorch">albert_pytorch
    
-##### 使用Keras:
+##### 使用Keras加载:
 
 <a href="https://github.com/bojone/bert4keras">bert4keras</a> 适配albert，能成功加载albert_zh的权重，只需要在load_pretrained_model函数里加上albert=True
 
 load pre-trained model with bert4keras
 
+##### 使用tf2.0加载:
+
+<a href="https://github.com/kpe/bert-for-tf2">bert-for-tf2</a>
 
 支持的序列长度与批次大小的关系,12G显存 Trade off between batch Size and sequence length
 -------------------------------------------------
