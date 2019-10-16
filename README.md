@@ -13,46 +13,20 @@ Different version of ALBERT pre-trained model for Chinese, including TensorFlow,
 
 更多数据集、基线模型、不同任务上模型效果的详细对比，见<a href="https://github.com/chineseGLUE/chineseGLUE">中文任务基准测评chineseGLUE</a>
 
-##### Update
-**\*\*\*\*\* 2019-10-15: add albert_tiny_zh, speed 10 times fast than bert base for training and inference, accuracy remains: only 1.5 percentage less \*\*\*\*\***
+<img src="https://github.com/brightmart/albert_zh/blob/master/resources/albert_tiny_compare_s.jpg"  width="80%" height="40%" />
 
-**\*\*\*\*\* 2019-10-13: add albert_xlarge_zh; albert_base_zh_additional_steps, training with additional 150 Million instances) \*\*\*\*\***
-
-**\*\*\*\*\* 2019-10-11: albert with TensorFlow 2.0 \*\*\*\*\***
-
-Use or load pre-trained model with tf2.0 through <a href="https://github.com/kpe/bert-for-tf2">bert-for-tf2</a>
-
-**\*\*\*\*\* 2019-10-06: albert_xlarge_zh  \*\*\*\*\***
-
-Released albert_xlarge_zh, 59M parameters, half parameters of bert_base, 200M. 
-
-rank top 1 for LCQMC dataset up to now, up 0.5 percentage
-
-**\*\*\*\*\* 2019-10-04: PyTorch and Keras versions of albert were supported \*\*\*\*\***
-
-Convert to PyTorch version and do your tasks through <a href="https://github.com/lonePatient/albert_pytorch">albert_pytorch</a>
-
-Load pre-trained model with keras using one line of codes through <a href="https://github.com/bojone/bert4keras">bert4keras</a>
-
-Releasing albert_xlarge on 6th Oct
-
-**\*\*\*\*\* 2019-10-02: albert_large_zh,albert_base_zh \*\*\*\*\***
-
-Relesed albert_base_zh with only 10% parameters of bert_base, a small model(40M) & training can be very fast. 
-
-Relased albert_large_zh with only 16% parameters of bert_base(64M)
-
-**\*\*\*\*\* 2019-09-28: codes and test functions \*\*\*\*\*** 
-
-Add codes and test functions for three main changes of albert from bert
 
 模型下载 Download Pre-trained Models of Chinese
 -----------------------------------------------
-1、<a href="https://storage.googleapis.com/albert_zh/albert_tiny.zip">albert_tiny_zh</a>, 文件大小16M
+1、<a href="https://storage.googleapis.com/albert_zh/albert_tiny.zip">albert_tiny_zh</a>, 文件大小16M、参数为1.8M
 
-    训练和推理预测速度提升10倍，精度基本保留，模型大小为bert的1/25；在语义相似度数据集LCQMC的测试集上达到85.4%，相比bert_base仅下降1.5个点。
+    训练和推理预测速度提升约10倍，精度基本保留，模型大小为bert的1/25；语义相似度数据集LCQMC测试集上达到85.4%，相比bert_base仅下降1.5个点。
 
-    lcqmc训练使用如下参数： --max_seq_length=128 --train_batch_size=64   --learning_rate=1e-4   --num_train_epochs=5 \
+    lcqmc训练使用如下参数： --max_seq_length=128 --train_batch_size=64   --learning_rate=1e-4   --num_train_epochs=5 
+    
+    albert_tiny使用同样的大规模中文语料数据，层数仅为4层、hidden size等向量维度大幅减少。
+    
+    【使用场景】任务相对比较简单一些或实时性要求高的任务，如语义相似度等句子对任务、分类任务；比较难的任务如阅读理解等，可以使用其他大模型。
 
 2、<a href="https://storage.googleapis.com/albert_zh/albert_large_zh.zip">albert_large_zh</a>,参数量，层数24，文件大小为64M
    
@@ -68,6 +42,32 @@ Add codes and test functions for three main changes of albert from bert
    
     参数量和模型大小为bert_base的二分之一；需要一张大的显卡；完整测试对比将后续添加；batch_size不能太小，否则可能影响精度
 
+##### Update
+**\*\*\*\*\* 2019-10-15: add albert_tiny_zh, speed 10 times fast than bert base for training and inference, acc only 1.5 percentage less \*\*\*\*\***
+
+**\*\*\*\*\* 2019-10-07: more models of albert \*\*\*\*\***
+
+add albert_xlarge_zh; albert_base_zh_additional_steps, training with more instances
+
+**\*\*\*\*\* 2019-10-04: PyTorch and Keras versions of albert were supported \*\*\*\*\***
+
+a.Convert to PyTorch version and do your tasks through <a href="https://github.com/lonePatient/albert_pytorch">albert_pytorch</a>
+
+b.Load pre-trained model with keras using one line of codes through <a href="https://github.com/bojone/bert4keras">bert4keras</a>
+
+c. albert with TensorFlow 2.0: Use or load pre-trained model with tf2.0 through <a href="https://github.com/kpe/bert-for-tf2">bert-for-tf2</a>
+
+Releasing albert_xlarge on 6th Oct
+
+**\*\*\*\*\* 2019-10-02: albert_large_zh,albert_base_zh \*\*\*\*\***
+
+Relesed albert_base_zh with only 10% parameters of bert_base, a small model(40M) & training can be very fast. 
+
+Relased albert_large_zh with only 16% parameters of bert_base(64M)
+
+**\*\*\*\*\* 2019-09-28: codes and test functions \*\*\*\*\*** 
+
+Add codes and test functions for three main changes of albert from bert
 
 ALBERT模型介绍 Introduction of ALBERT
 -----------------------------------------------
@@ -119,15 +119,6 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
        即以不同的概率使用n-gram,uni-gram的概率最大，bi-gram其次，tri-gram概率最小。
        本项目中目前使用的是在中文上做whole word mask，稍后会更新一下与n-gram mask的效果对比。n-gram从spanBERT中来。
 
-发布计划 Release Plan
------------------------------------------------
-1、albert_base, 参数量12M, 层数12，10月7号
-
-2、albert_large, 参数量18M, 层数24，10月13号
-
-3、albert_xlarge, 参数量59M, 层数24，10月6号
-
-4、albert_xxlarge, 参数量233M, 层数12，10月7号（效果最佳的模型）
 
 训练语料/训练配置 Training Data & Configuration
 -----------------------------------------------
@@ -140,7 +131,6 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
     我们预计albert_zh会有比roberta_zh更好的性能表现，并且能更好处理较长的文本。
 
 训练使用TPU v3 Pod，我们使用的是v3-256，它包含32个v3-8。每个v3-8机器，含有128G的显存。
-
 
 
 模型性能与对比(英文) Performance and Comparision
@@ -194,6 +184,9 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 | ALBERT-xxlarge | ? | ? |
 
 注：只跑了一次ALBERT-xlarge，效果还可能提升
+
+<img src="https://github.com/brightmart/albert_zh/blob/master/resources/crmc2018_compare_s.jpg"  width="80%" height="40%" />
+
 
 ### 语言模型、文本段预测准确性、训练时间 Mask Language Model Accuarcy & Training Time
 
@@ -295,7 +288,7 @@ We will use LCQMC dataset for fine-tuning, it is oral language corpus, it is use
 load pre-trained model with bert4keras
 
 
-12G显存机器-支持的序列长度与批次大小的关系 Trade off between batch Size and sequence length
+支持的序列长度与批次大小的关系,12G显存 Trade off between batch Size and sequence length
 -------------------------------------------------
 
 System       | Seq Length | Max Batch Size
@@ -355,7 +348,13 @@ Reference
 
 7、<a href="http://baijiahao.baidu.com/s?id=1645712785366950083&wfr=spider&for=pc">预训练小模型也能拿下13项NLP任务，ALBERT三大改造登顶GLUE基准</a>
 
-8、<a href="https://github.com/bojone/bert4keras">bert4keras</a>
+8、 <a href="https://github.com/lonePatient/albert_pytorch">albert_pytorch</a>
+
+9、<a href="https://github.com/bojone/bert4keras">load albert with keras</a>
+
+10、<a href="https://github.com/kpe/bert-for-tf2">load albert with tf2.0</a>
+
+11、<a href="https://github.com/chineseGLUE/chineseGLUE">chineseGLUE-中文任务基准测评：更多公开可用数据集、基线模型、广泛测评与效果对比</a>
 
 
 
