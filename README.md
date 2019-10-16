@@ -64,9 +64,9 @@ Add codes and test functions for three main changes of albert from bert
     相比未预训练，albert_base提升14个点
 
 4、<a href="https://storage.googleapis.com/albert_zh/albert_xlarge_zh_177k.zip">albert_xlarge_zh_177k </a>; 
-<a href="https://storage.googleapis.com/albert_zh/albert_xlarge_zh_183k.zip"></a>参数量，层数24，文件大小为230M
+<a href="https://storage.googleapis.com/albert_zh/albert_xlarge_zh_183k.zip">albert_xlarge_zh_183k</a>参数量，层数24，文件大小为230M
    
-    参数量和模型大小为bert_base的二分之一；需要一张大的显卡；完整测试对比将后续添加
+    参数量和模型大小为bert_base的二分之一；需要一张大的显卡；完整测试对比将后续添加；batch_size不能太小，否则可能影响精度
 
 
 ALBERT模型介绍 Introduction of ALBERT
