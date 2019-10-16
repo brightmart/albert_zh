@@ -13,7 +13,7 @@ Different version of ALBERT pre-trained model for Chinese, including TensorFlow,
 
 更多数据集、基线模型、不同任务上模型效果的详细对比，见<a href="https://github.com/chineseGLUE/chineseGLUE">中文任务基准测评chineseGLUE</a>
 
-<img src="https://github.com/brightmart/albert_zh/blob/master/resources/albert_tiny_compare_s.jpg"  width="80%" height="60%" />
+<img src="https://github.com/brightmart/albert_zh/blob/master/resources/albert_tiny_compare_s.jpg"  width="90%" height="70%" />
 
 
 模型下载 Download Pre-trained Models of Chinese
@@ -38,7 +38,7 @@ Different version of ALBERT pre-trained model for Chinese, including TensorFlow,
     相比未预训练，albert_base提升14个点
 
 4、<a href="https://storage.googleapis.com/albert_zh/albert_xlarge_zh_177k.zip">albert_xlarge_zh_177k </a>; 
-<a href="https://storage.googleapis.com/albert_zh/albert_xlarge_zh_183k.zip">albert_xlarge_zh_183k</a>参数量，层数24，文件大小为230M
+<a href="https://storage.googleapis.com/albert_zh/albert_xlarge_zh_183k.zip">albert_xlarge_zh_183k(优先尝试)</a>参数量，层数24，文件大小为230M
    
     参数量和模型大小为bert_base的二分之一；需要一张大的显卡；完整测试对比将后续添加；batch_size不能太小，否则可能影响精度
 
@@ -186,7 +186,7 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 
 ###  阅读理解任务：CRMC2018
 
-<img src="https://github.com/brightmart/albert_zh/blob/master/resources/crmc2018_compare_s.jpg"  width="80%" height="60%" />
+<img src="https://github.com/brightmart/albert_zh/blob/master/resources/crmc2018_compare_s.jpg"  width="90%" height="70%" />
 
 
 ### 语言模型、文本段预测准确性、训练时间 Mask Language Model Accuarcy & Training Time
