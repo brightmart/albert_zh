@@ -18,7 +18,7 @@ Different version of ALBERT pre-trained model for Chinese, including TensorFlow,
 
 模型下载 Download Pre-trained Models of Chinese
 -----------------------------------------------
-1、<a href="https://storage.googleapis.com/albert_zh/albert_tiny.zip">albert_tiny_zh</a>, 文件大小16M、参数为1.8M
+1、<a href="https://storage.googleapis.com/albert_zh/albert_tiny.zip">albert_tiny_zh</a>, <a href="https://storage.googleapis.com/albert_zh/albert_tiny_250k.zip">albert_tiny_zh(训练更久，累积学习五亿个样本)</a>，文件大小16M、参数为1.8M
 
     训练和推理预测速度提升约10倍，精度基本保留，模型大小为bert的1/25；语义相似度数据集LCQMC测试集上达到85.4%，相比bert_base仅下降1.5个点。
 
