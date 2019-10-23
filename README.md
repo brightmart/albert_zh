@@ -18,15 +18,16 @@ Different version of ALBERT pre-trained model for Chinese, including TensorFlow,
 
 模型下载 Download Pre-trained Models of Chinese
 -----------------------------------------------
-1、<a href="https://storage.googleapis.com/albert_zh/albert_tiny.zip">albert_tiny_zh</a>, <a href="https://storage.googleapis.com/albert_zh/albert_tiny_250k.zip">albert_tiny_zh(训练更久，累积学习五亿个样本)</a>，文件大小16M、参数为1.8M
+1、<a href="https://storage.googleapis.com/albert_zh/albert_tiny.zip">albert_tiny_zh</a>, <a href="hhttps://storage.googleapis.com/albert_zh/albert_tiny_489k.zip">albert_tiny_zh(训练更久，累积学习20亿个样本)</a>，文件大小16M、参数为1.8M
 
     训练和推理预测速度提升约10倍，精度基本保留，模型大小为bert的1/25；语义相似度数据集LCQMC测试集上达到85.4%，相比bert_base仅下降1.5个点。
 
     lcqmc训练使用如下参数： --max_seq_length=128 --train_batch_size=64   --learning_rate=1e-4   --num_train_epochs=5 
     
-    albert_tiny使用同样的大规模中文语料数据，层数仅为4层、hidden size等向量维度大幅减少。
+    albert_tiny使用同样的大规模中文语料数据，层数仅为4层、hidden size等向量维度大幅减少; 尝试使用如下学习率来获得更好效果：{2e-5, 6e-5, 1e-4} 
     
     【使用场景】任务相对比较简单一些或实时性要求高的任务，如语义相似度等句子对任务、分类任务；比较难的任务如阅读理解等，可以使用其他大模型。
+    
 
 2、<a href="https://storage.googleapis.com/albert_zh/albert_large_zh.zip">albert_large_zh</a>,参数量，层数24，文件大小为64M
    
@@ -274,7 +275,7 @@ We will use LCQMC dataset for fine-tuning, it is oral language corpus, it is use
         2) for Fine-tuning, you can try to add small percentage of dropout(e.g. 0.1) by changing parameters of 
           attention_probs_dropout_prob & hidden_dropout_prob on albert_config_xxx.json. By default, we set dropout as zero. 
         
-        3) you can try different learning rate {2e-5, 5e-5, 1e-4} for better performance 
+        3) you can try different learning rate {2e-5, 6e-5, 1e-4} for better performance 
  
 ##### 使用PyTorch版本:
 
