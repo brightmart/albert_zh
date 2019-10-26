@@ -296,7 +296,10 @@ load pre-trained model with bert4keras
 <a href="https://github.com/kpe/bert-for-tf2">bert-for-tf2</a>
 
 
-##### 基于用户输入预测文本相似性
+使用案例-基于用户输入预测文本相似性 Use Case-Text Similarity Based on User Input
+-------------------------------------------------
+
+功能说明：用户可以通过本例了解如何加载训训练集实现基于用户输入的短文本相似度判断。可以基于该代码将程序灵活地拓展为后台服务或增加文本分类等示例。
 
 涉及代码：similarity.py、args.py
 
@@ -328,19 +331,17 @@ data_dir = os.path.join(file_path, 'data/')
 
 本例中的文件结构为：
 
-|__args.py
-
-|__similarity.py
-
-|__data
-
-|__albert_config
-
-|__albert_lcqmc_checkpoints
-
-|__lcqmc
-
-
+    |__args.py
+    
+    |__similarity.py
+    
+    |__data
+    
+    |__albert_config
+    
+    |__albert_lcqmc_checkpoints
+    
+    |__lcqmc
 
 3、修改用户输入单词
 
@@ -355,19 +356,7 @@ if __name__ == '__main__':
 
 其中sim.start_model()表示加载模型，sim.predict_sentences的输入为一个元组数组，元组中包含两个元素分别为需要判定相似的句子。
 
-
-
 4、运行python文件：similarity.py
-
-
-
-功能说明：用户可以通过本例了解如何加载训训练集实现基于用户输入的短文本相似度判断。可以基于该代码将程序灵活地拓展为后台服务或增加文本分类等示例。
-
--------------------------------------------------
-
-
-
-
 
 
 支持的序列长度与批次大小的关系,12G显存 Trade off between batch Size and sequence length
