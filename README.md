@@ -295,6 +295,81 @@ load pre-trained model with bert4keras
 
 <a href="https://github.com/kpe/bert-for-tf2">bert-for-tf2</a>
 
+
+##### 基于用户输入预测文本相似性
+
+涉及代码：similarity.py、args.py
+
+步骤：
+
+1、使用本模型进行文本相似性训练，保存模型文件至相应目录下
+
+2、根据实际情况，修改args.py中的参数，参数说明如下：
+
+```python
+#模型目录，存放ckpt文件
+model_dir = os.path.join(file_path, 'albert_lcqmc_checkpoints/')
+
+#config文件，存放模型的json文件
+config_name = os.path.join(file_path, 'albert_config/albert_config_tiny.json')
+
+#ckpt文件名称
+ckpt_name = os.path.join(model_dir, 'model.ckpt')
+
+#输出文件目录，训练时的模型输出目录
+output_dir = os.path.join(file_path, 'albert_lcqmc_checkpoints/')
+
+#vocab文件目录
+vocab_file = os.path.join(file_path, 'albert_config/vocab.txt')
+
+#数据目录，训练使用的数据集存放目录
+data_dir = os.path.join(file_path, 'data/')
+```
+
+本例中的文件结构为：
+
+|__args.py
+
+|__similarity.py
+
+|__data
+
+|__albert_config
+
+|__albert_lcqmc_checkpoints
+
+|__lcqmc
+
+
+
+3、修改用户输入单词
+
+打开similarity.py，最底部如下代码：
+
+```python
+if __name__ == '__main__':
+    sim = BertSim()
+    sim.start_model()
+    sim.predict_sentences([("我喜欢妈妈做的汤", "妈妈做的汤我很喜欢喝")])
+```
+
+其中sim.start_model()表示加载模型，sim.predict_sentences的输入为一个元组数组，元组中包含两个元素分别为需要判定相似的句子。
+
+
+
+4、运行python文件：similarity.py
+
+
+
+功能说明：用户可以通过本例了解如何加载训训练集实现基于用户输入的短文本相似度判断。可以基于该代码将程序灵活地拓展为后台服务或增加文本分类等示例。
+
+-------------------------------------------------
+
+
+
+
+
+
 支持的序列长度与批次大小的关系,12G显存 Trade off between batch Size and sequence length
 -------------------------------------------------
 
