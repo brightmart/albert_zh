@@ -319,7 +319,7 @@ def create_instances_from_document_albert(
         # print("tokens_a length1:",len(tokens_a))
         # print("tokens_b length1:",len(tokens_b)) # len(tokens_b) = 0
 
-        if len(tokens_a)==0 or len(tokens_b)==0: continue
+        if len(tokens_a) == 0 or len(tokens_b) == 0: i += 1; continue
         if rng.random() < 0.5: # 交换一下tokens_a和tokens_b
           is_random_next=True
           temp=tokens_a
