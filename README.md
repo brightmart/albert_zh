@@ -298,7 +298,7 @@ Ensure to have >=1.14 1.x installed to use the freeze_graph tool as it is remove
 
 2. Convert to TFLite format
 
-We are going to use the new and preview tf->tflite converter that's distributed with nightly Tensorflow build
+We are going to use the new experimental tf->tflite converter that's distributed with the Tensorflow nightly build.
 
     pip install tf-nightly
 
