@@ -48,7 +48,7 @@ Different version of ALBERT pre-trained model for Chinese, including TensorFlow,
 
 Updates
 -----------------------------------------------
-**\*\*\*\*\* 2019-10-30: add a simple section about how to convert the model to Tensorflow Lite for edge deployment \*\*\*\*\***
+**\*\*\*\*\* 2019-10-30: add a simple guide about converting the model to Tensorflow Lite for edge deployment \*\*\*\*\***
 
 **\*\*\*\*\* 2019-10-15: albert_tiny_zh, 10 times fast than bert base for training and inference, accuracy remains \*\*\*\*\***
 
