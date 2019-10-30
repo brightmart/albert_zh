@@ -28,7 +28,7 @@ Different version of ALBERT pre-trained model for Chinese, including TensorFlow,
     
     【使用场景】任务相对比较简单一些或实时性要求高的任务，如语义相似度等句子对任务、分类任务；比较难的任务如阅读理解等，可以使用其他大模型。
 
-例如，可以使用Tensorflow Lite在移动端进行部署，参见[这里](#use_tflite)在移动端进行推理)进行模型格式转换。
+例如，可以使用Tensorflow Lite在移动端进行部署，本文[随后](#use_tflite)介绍了如何转换成Tensorflow Lite和对其进行性能测试。
 
     
 
