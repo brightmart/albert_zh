@@ -27,6 +27,9 @@ Different version of ALBERT pre-trained model for Chinese, including TensorFlow,
     albert_tiny使用同样的大规模中文语料数据，层数仅为4层、hidden size等向量维度大幅减少; 尝试使用如下学习率来获得更好效果：{2e-5, 6e-5, 1e-4} 
     
     【使用场景】任务相对比较简单一些或实时性要求高的任务，如语义相似度等句子对任务、分类任务；比较难的任务如阅读理解等，可以使用其他大模型。
+
+例如，可以使用Tensorflow Lite在移动端进行部署，参见[这里](#use_tflite)在移动端进行推理)进行模型格式转换。
+
     
 
 2、<a href="https://storage.googleapis.com/albert_zh/albert_large_zh.zip">albert_large_zh</a>,参数量，层数24，文件大小为64M
@@ -45,6 +48,8 @@ Different version of ALBERT pre-trained model for Chinese, including TensorFlow,
 
 Updates
 -----------------------------------------------
+**\*\*\*\*\* 2019-10-30: add a simple section about how to convert the model to Tensorflow Lite for edge deployment \*\*\*\*\***
+
 **\*\*\*\*\* 2019-10-15: albert_tiny_zh, 10 times fast than bert base for training and inference, accuracy remains \*\*\*\*\***
 
 **\*\*\*\*\* 2019-10-07: more models of albert \*\*\*\*\***
@@ -276,7 +281,44 @@ We will use LCQMC dataset for fine-tuning, it is oral language corpus, it is use
           attention_probs_dropout_prob & hidden_dropout_prob on albert_config_xxx.json. By default, we set dropout as zero. 
         
         3) you can try different learning rate {2e-5, 6e-5, 1e-4} for better performance 
- 
+
+##### <a name="use_tflite"></a>使用TensorFlow Lite(TFLite)在移动端进行部署:
+这里我们仅涉及TFLite模型格式转换和性能测试。 以<a href="https://storage.googleapis.com/albert_zh/albert_tiny.zip">albert_tiny_zh</a>为例：
+
+1. Freeze graph from the checkpoint
+
+Ensure to have >=1.14 1.x installed to use the freeze_graph tool as it is removed from 2.x distribution
+
+    pip install tensorflow==1.15
+
+    freeze_graph --input_checkpoint=./albert_model.ckpt \
+      --output_graph=/tmp/albert_tiny_zh.pb \
+      --output_node_names=cls/predictions/truediv \
+      --checkpoint_version=1 --input_meta_graph=./albert_model.ckpt.meta --input_binary=true
+
+2. Convert to TFLite format
+
+We are going to use the new and preview tf->tflite converter that's distributed with nightly Tensorflow build
+
+    pip install tf-nightly
+
+    tflite_convert --graph_def_file=/tmp/albert_tiny_zh.pb \
+      --input_arrays='input_ids,input_mask,segment_ids,masked_lm_positions,masked_lm_ids,masked_lm_weights' \
+      --output_arrays='cls/predictions/truediv' \
+      --input_shapes=1,128:1,128:128:1,128:1,128:1,128 \
+      --output_file=/tmp/albert_tiny_zh.tflite \
+      --enable_v1_converter --experimental_new_converter
+
+3. Benchmark the performance of the TFLite model
+
+See [here](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/lite/tools/benchmark) 
+for details about the performance benchmark tools in TFLite. For example: after
+building the benchmark tool binary for an Android phone, do the following to
+get an idea of how the TFLite model performs on the phone
+
+    adb push /tmp/albert_tiny_zh.tflite /data/local/tmp/
+    adb shell /data/local/tmp/benchmark_model_performance_options --graph=/data/local/tmp/albert_tiny_zh.tflite --perf_options_list=cpu
+
 ##### 使用PyTorch版本:
 
     download pre-trained model, and convert to PyTorch using:
