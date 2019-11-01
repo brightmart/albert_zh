@@ -28,7 +28,7 @@ Different version of ALBERT pre-trained model for Chinese, including TensorFlow,
     
     【使用场景】任务相对比较简单一些或实时性要求高的任务，如语义相似度等句子对任务、分类任务；比较难的任务如阅读理解等，可以使用其他大模型。
 
-例如，可以使用Tensorflow Lite在移动端进行部署，本文[随后](#use_tflite)介绍了如何转换成Tensorflow Lite和对其进行性能测试。
+例如，可以使用[Tensorflow Lite](https://www.tensorflow.org/lite)在移动端进行部署，本文[随后](#use_tflite)针对这一点进行了介绍，包括如何把模型转换成Tensorflow Lite格式和对其进行性能测试等。
 
     
 
@@ -283,7 +283,13 @@ We will use LCQMC dataset for fine-tuning, it is oral language corpus, it is use
         3) you can try different learning rate {2e-5, 6e-5, 1e-4} for better performance 
 
 ##### <a name="use_tflite"></a>使用TensorFlow Lite(TFLite)在移动端进行部署:
-这里我们仅涉及TFLite模型格式转换和性能测试。 以<a href="https://storage.googleapis.com/albert_zh/albert_tiny.zip">albert_tiny_zh</a>为例：
+这里我们主要介绍TFLite模型格式转换和性能测试。转换成TFLite模型后，对于如何在移
+动端使用该模型，可以参考TFLite提供的[Android/iOS应用完整开发案例教程页面](https://www.tensorflow.org/lite/examples)。
+该页面目前已经包含了[文本分类](https://github.com/tensorflow/examples/blob/master/lite/examples/text_classification/android)，
+[文本问答](https://github.com/tensorflow/examples/blob/master/lite/examples/bert_qa/android)两个Android案例。
+
+下面以<a href="https://storage.googleapis.com/albert_zh/albert_tiny.zip">albert_tiny_zh</a>
+为例来介绍TFLite模型格式转换和性能测试：
 
 1. Freeze graph from the checkpoint
 
@@ -318,6 +324,12 @@ get an idea of how the TFLite model performs on the phone
 
     adb push /tmp/albert_tiny_zh.tflite /data/local/tmp/
     adb shell /data/local/tmp/benchmark_model_performance_options --graph=/data/local/tmp/albert_tiny_zh.tflite --perf_options_list=cpu
+
+On an Android phone w/ Qualcomm's SD845 SoC, via the above benchmark tool, as
+of 2019/11/01, the inference latency is ~120ms w/ this converted TFLite model
+using 4 threads on CPU, and the memory usage is ~60MB for the model during
+inference. Note the performance will improve further with future TFLite
+implementation optimizations.
 
 ##### 使用PyTorch版本:
 
