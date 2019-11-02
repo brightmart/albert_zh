@@ -236,10 +236,10 @@ Run following command 运行以下命令即可。项目自动了一个示例的�
     GPU:
     export BERT_BASE_DIR=albert_config
     nohup python3 run_pretraining.py --input_file=./data/tf*.tfrecord  \
-    --output_dir=my_new_model_path --do_train=True --do_eval=True --bert_config_file=$BERT_BASE_DIR/albert_config_xxlarge.json \
-    --train_batch_size=4096 --max_seq_length=512 --max_predictions_per_seq=76 \
+    --output_dir=my_new_model_path --do_train=True --do_eval=True --bert_config_file=$BERT_BASE_DIR/albert_config_tiny.json \
+    --train_batch_size=4096 --max_seq_length=512 --max_predictions_per_seq=51 \
     --num_train_steps=125000 --num_warmup_steps=12500 --learning_rate=0.00176    \
-    --save_checkpoints_steps=2000   --init_checkpoint=$BERT_BASE_DIR/bert_model.ckpt &
+    --save_checkpoints_steps=2000   --init_checkpoint=$BERT_BASE_DIR/albert_model.ckpt &
     
     TPU, add something like this:
         --use_tpu=True  --tpu_name=grpc://10.240.1.66:8470 --tpu_zone=us-central1-a
