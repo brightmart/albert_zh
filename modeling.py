@@ -480,7 +480,7 @@ def embedding_lookup_factorized(input_ids, # Factorized embedding parameterizati
         input_ids = tf.expand_dims(input_ids, axis=[-1])  # shape of input_ids is:[ batch_size, seq_length, 1]
 
     embedding_table = tf.get_variable(  # [vocab_size, embedding_size]
-        name=word_embedding_name,
+        name=word_embedding_name+"_1",
         shape=[vocab_size, embedding_size],
         initializer=create_initializer(initializer_range))
 
