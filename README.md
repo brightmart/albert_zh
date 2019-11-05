@@ -32,9 +32,9 @@ Different version of ALBERT pre-trained model for Chinese, including TensorFlow,
 
 1.1、<a href="https://storage.googleapis.com/albert_zh/albert_tiny_zh_google.zip">albert_tiny_google_zh(累积学习10亿个样本,google版本)</a>，模型大小16M、性能与albert_tiny_zh一致
 
-1.2、<a href="https://storage.googleapis.com/albert_zh/albert_small_zh_google.zip">albert_small_google_zh(累积学习10亿个样本,google版本)</a>，模型大小18.5M、LCQMC测试集上比Bert下降仅0.9个点
-
-     使用方法，见 #下游任务 Fine-tuning on Downstream Task     
+1.2、<a href="https://storage.googleapis.com/albert_zh/albert_small_zh_google.zip">albert_small_google_zh(累积学习10亿个样本,google版本)</a>，
+     
+     速度比bert_base快4倍；LCQMC测试集上比Bert下降仅0.9个点；去掉adam后模型大小18.5M；使用方法，见 #下游任务 Fine-tuning on Downstream Task     
      
 2、<a href="https://storage.googleapis.com/albert_zh/albert_large_zh.zip">albert_large_zh</a>,参数量，层数24，文件大小为64M
    
