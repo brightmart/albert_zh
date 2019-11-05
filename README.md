@@ -28,10 +28,14 @@ Different version of ALBERT pre-trained model for Chinese, including TensorFlow,
     
     【使用场景】任务相对比较简单一些或实时性要求高的任务，如语义相似度等句子对任务、分类任务；比较难的任务如阅读理解等，可以使用其他大模型。
 
-例如，可以使用[Tensorflow Lite](https://www.tensorflow.org/lite)在移动端进行部署，本文[随后](#use_tflite)针对这一点进行了介绍，包括如何把模型转换成Tensorflow Lite格式和对其进行性能测试等。
+     例如，可以使用[Tensorflow Lite](https://www.tensorflow.org/lite)在移动端进行部署，本文[随后](#use_tflite)针对这一点进行了介绍，包括如何把模型转换成Tensorflow Lite格式和对其进行性能测试等。
 
-    
+1.1、<a href="https://storage.googleapis.com/albert_zh/albert_tiny_zh_google.zip">albert_tiny_google_zh(累积学习10亿个样本,google版本)</a>，模型大小16M、性能与albert_tiny_zh一致
 
+1.2、<a href="https://storage.googleapis.com/albert_zh/albert_small_zh_google.zip">albert_small_google_zh(累积学习10亿个样本,google版本)</a>，模型大小18.5M、LCQMC测试集上比Bert下降仅0.9个点
+
+     使用方法，见 #下游任务 Fine-tuning on Downstream Task     
+     
 2、<a href="https://storage.googleapis.com/albert_zh/albert_large_zh.zip">albert_large_zh</a>,参数量，层数24，文件大小为64M
    
     参数量和模型大小为bert_base的六分之一；在口语化描述相似性数据集LCQMC的测试集上相比bert_base上升0.2个点
@@ -48,6 +52,10 @@ Different version of ALBERT pre-trained model for Chinese, including TensorFlow,
 
 Updates
 -----------------------------------------------
+**\*\*\*\*\* 2019-11-03: add google version of albert_small, albert_tiny; 
+
+add method to deploy ablert_tiny to mobile devices with only 0.1 second inference time for sequence length 128, 60M memory \*\*\*\*\***
+
 **\*\*\*\*\* 2019-10-30: add a simple guide about converting the model to Tensorflow Lite for edge deployment \*\*\*\*\***
 
 **\*\*\*\*\* 2019-10-15: albert_tiny_zh, 10 times fast than bert base for training and inference, accuracy remains \*\*\*\*\***
@@ -233,13 +241,21 @@ Run following command 运行以下命令即可。项目自动了一个示例的�
     otherwise, by default it is doing chinese pre-train using whole word mask of chinese.
 
 #### 执行预训练 pre-training on GPU/TPU using the command
-    GPU:
-    export BERT_BASE_DIR=albert_config
+    GPU(brightmart版, tiny模型):
+    export BERT_BASE_DIR=./albert_tiny_zh
     nohup python3 run_pretraining.py --input_file=./data/tf*.tfrecord  \
-    --output_dir=my_new_model_path --do_train=True --do_eval=True --bert_config_file=$BERT_BASE_DIR/albert_config_tiny.json \
+    --output_dir=./my_new_model_path --do_train=True --do_eval=True --bert_config_file=$BERT_BASE_DIR/albert_config_tiny.json \
     --train_batch_size=4096 --max_seq_length=512 --max_predictions_per_seq=51 \
     --num_train_steps=125000 --num_warmup_steps=12500 --learning_rate=0.00176    \
-    --save_checkpoints_steps=2000   --init_checkpoint=$BERT_BASE_DIR/albert_model.ckpt &
+    --save_checkpoints_steps=2000  --init_checkpoint=$BERT_BASE_DIR/albert_model.ckpt &
+    
+    GPU(Google版本, small模型):
+    export BERT_BASE_DIR=./albert_small_zh_google
+    nohup python3 run_pretraining_google.py --input_file=./data/tf*.tfrecord --eval_batch_size=64 \
+    --output_dir=./my_new_model_path --do_train=True --do_eval=True --albert_config_file=$BERT_BASE_DIR/albert_config_small_google.json  --export_dir=./my_new_model_path_export \
+    --train_batch_size=4096 --max_seq_length=512 --max_predictions_per_seq=20 \
+    --num_train_steps=125000 --num_warmup_steps=12500 --learning_rate=0.00176   \
+    --save_checkpoints_steps=2000 --init_checkpoint=$BERT_BASE_DIR/albert_model.ckpt
     
     TPU, add something like this:
         --use_tpu=True  --tpu_name=grpc://10.240.1.66:8470 --tpu_zone=us-central1-a
@@ -264,17 +280,24 @@ We will use LCQMC dataset for fine-tuning, it is oral language corpus, it is use
           
           git clone https://github.com/brightmart/albert_zh.git
           
-    2. Fine-tuning by running the following command：
-    
+    2. Fine-tuning by running the following command.
+        brightmart版本的tiny模型
         export BERT_BASE_DIR=./albert_tiny_zh
         export TEXT_DIR=./lcqmc
         nohup python3 run_classifier.py   --task_name=lcqmc_pair   --do_train=true   --do_eval=true   --data_dir=$TEXT_DIR   --vocab_file=./albert_config/vocab.txt  \
         --bert_config_file=./albert_config/albert_config_tiny.json --max_seq_length=128 --train_batch_size=64   --learning_rate=1e-4  --num_train_epochs=5 \
-        --output_dir=albert_lcqmc_checkpoints --init_checkpoint=$BERT_BASE_DIR/albert_model.ckpt &
+        --output_dir=./albert_lcqmc_checkpoints --init_checkpoint=$BERT_BASE_DIR/albert_model.ckpt &
         
+        google版本的small模型
+        export BERT_BASE_DIR=./albert_small_zh
+        export TEXT_DIR=./lcqmc
+        nohup python3 run_classifier_sp_google.py --task_name=lcqmc_pair   --do_train=true   --do_eval=true   --data_dir=$TEXT_DIR   --vocab_file=./albert_config/vocab.txt  \
+        --albert_config_file=./$BERT_BASE_DIR/albert_config_small_google.json --max_seq_length=128 --train_batch_size=64   --learning_rate=1e-4   --num_train_epochs=5 \
+        --output_dir=./albert_lcqmc_checkpoints --init_checkpoint=$BERT_BASE_DIR/albert_model.ckpt &
+
     Notice/注：
         1) you need to download pre-trained chinese albert model, and also download LCQMC dataset 
-        你需要下载预训练的模型，并放入到项目当前项目，假设目录名称为albert_large_zh; 需要下载LCQMC数据集，并放入到当前项目，
+        你需要下载预训练的模型，并放入到项目当前项目，假设目录名称为albert_tiny_zh; 需要下载LCQMC数据集，并放入到当前项目，
         假设数据集目录名称为lcqmc
 
         2) for Fine-tuning, you can try to add small percentage of dropout(e.g. 0.1) by changing parameters of 
@@ -459,7 +482,7 @@ Bright Liang Xu, albert_zh, (2019), GitHub repository, https://github.com/bright
 
 Reference
 -----------------------------------------------
-1、<a href="https://openreview.net/pdf?id=H1eA7AEtvS">ALBERT: A Lite BERT For Self-Supervised Learning Of Language Representations</a>
+1、<a href="https://arxiv.org/pdf/1909.11942.pdf">ALBERT: A Lite BERT For Self-Supervised Learning Of Language Representations</a>
 
 2、<a href="https://arxiv.org/pdf/1810.04805.pdf">BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding</a>
 
@@ -479,8 +502,9 @@ Reference
 
 10、<a href="https://github.com/kpe/bert-for-tf2">load albert with tf2.0</a>
 
-11、<a href="https://github.com/chineseGLUE/chineseGLUE">chineseGLUE-中文任务基准测评：更多公开可用数据集、基线模型、广泛测评与效果对比</a>
+11、<a href="https://github.com/google-research/google-research/tree/master/albert">repo of albert from google</a>
 
+12、<a href="https://github.com/chineseGLUE/chineseGLUE">chineseGLUE-中文任务基准测评：公开可用多个任务、基线模型、广泛测评与效果对比</a>
 
 
 
