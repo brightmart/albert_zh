@@ -162,6 +162,27 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 中文任务集上效果对比测试 Performance on Chinese datasets
 ----------------------------------------------- 
 
+###  问题匹配语任务：LCQMC(Sentence Pair Matching)
+
+| 模型 | 开发集(Dev) | 测试集(Test) |
+| :------- | :---------: | :---------: |
+| BERT | 89.4(88.4) | 86.9(86.4) | 
+| ERNIE | 89.8 (89.6) | 87.2 (87.0) | 
+| BERT-wwm |89.4 (89.2) | 87.0 (86.8) | 
+| BERT-wwm-ext | - |-  |
+| RoBERTa-zh-base | 88.7 | 87.0  |
+| RoBERTa-zh-Large | ***89.9(89.6)*** | 87.2(86.7) |
+| RoBERTa-zh-Large(20w_steps) | 89.7| 87.0 |
+| ALBERT-zh-tiny | -- | 85.4 |
+| ALBERT-zh-small | -- | 86.0 |
+| ALBERT-zh-small(Pytorch) | -- | 86.8 |
+| ALBERT-zh-base-additional-36k-steps | 87.8 | 86.3 |
+| ALBERT-zh-base | 87.2 | 86.3 |
+| ALBERT-large | 88.7 | 87.1 |
+| ALBERT-xlarge | 87.3 | ***87.7*** |
+
+注：只跑了一次ALBERT-xlarge，效果还可能提升
+
 ### 自然语言推断：XNLI of Chinese Version
 
 | 模型 | 开发集 | 测试集 |
@@ -179,24 +200,6 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 
 注：BERT-wwm-ext来自于<a href="https://github.com/ymcui/Chinese-BERT-wwm">这里</a>；XLNet来自于<a href="https://github.com/ymcui/Chinese-PreTrained-XLNet">这里</a>; RoBERTa-zh-base，指12层RoBERTa中文模型
    
-###  问题匹配语任务：LCQMC(Sentence Pair Matching)
-
-| 模型 | 开发集(Dev) | 测试集(Test) |
-| :------- | :---------: | :---------: |
-| BERT | 89.4(88.4) | 86.9(86.4) | 
-| ERNIE | 89.8 (89.6) | 87.2 (87.0) | 
-| BERT-wwm |89.4 (89.2) | 87.0 (86.8) | 
-| BERT-wwm-ext | - |-  |
-| RoBERTa-zh-base | 88.7 | 87.0  |
-| RoBERTa-zh-Large | ***89.9(89.6)*** | 87.2(86.7) |
-| RoBERTa-zh-Large(20w_steps) | 89.7| 87.0 |
-| ALBERT-zh-tiny | -- | 85.4 |
-| ALBERT-zh-base-additional-36k-steps | 87.8 | 86.3 |
-| ALBERT-zh-base | 87.2 | 86.3 |
-| ALBERT-large | 88.7 | 87.1 |
-| ALBERT-xlarge | 87.3 | ***87.7*** |
-
-注：只跑了一次ALBERT-xlarge，效果还可能提升
 
 ###  阅读理解任务：CRMC2018
 
