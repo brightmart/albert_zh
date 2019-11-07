@@ -26,7 +26,7 @@ import six
 from six.moves import zip
 import tensorflow as tf
 
-from albert import lamb_optimizer
+import lamb_optimizer_google as lamb_optimizer
 
 
 def create_optimizer(loss, init_lr, num_train_steps, num_warmup_steps, use_tpu,
