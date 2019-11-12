@@ -7,11 +7,13 @@
 TASK_NAME="lcqmc"
 MODEL_NAME="albert_tiny_zh"
 CURRENT_DIR=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
+
 export CUDA_VISIBLE_DEVICES="0"
 export ALBERT_CONFIG_DIR=$CURRENT_DIR/albert_config
 export ALBERT_PRETRAINED_MODELS_DIR=$CURRENT_DIR/prev_trained_model
 export ALBERT_TINY_DIR=$ALBERT_PRETRAINED_MODELS_DIR/$MODEL_NAME
-export GLUE_DATA_DIR=$CURRENT_DIR/../../glue/chineseGLUEdatasets
+#mkdir chineseGLUEdatasets
+export GLUE_DATA_DIR=$CURRENT_DIR/chineseGLUEdatasets
 
 # download and unzip dataset
 if [ ! -d $GLUE_DATA_DIR ]; then
