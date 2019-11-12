@@ -720,8 +720,8 @@ def main(_):
 
   processors = {
       "sentence_pair": SentencePairClassificationProcessor,
-      "lcqmc_pair":LCQMCPairClassificationProcessor
-
+      "lcqmc_pair":LCQMCPairClassificationProcessor,
+      "lcqmc": LCQMCPairClassificationProcessor
 
   }
 
