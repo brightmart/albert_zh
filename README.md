@@ -11,7 +11,7 @@ Different version of ALBERT pre-trained model for Chinese, including TensorFlow,
 
 海量中文语料上预训练ALBERT模型：参数更少，效果更好。预训练小模型也能拿下13项NLP任务，ALBERT三大改造登顶GLUE基准
 
-更多数据集、基线模型、不同任务上模型效果的详细对比，见<a href="https://github.com/chineseGLUE/chineseGLUE">中文任务基准测评chineseGLUE</a>
+一键运行10个数据集、9个基线模型、不同任务上模型效果的详细对比，见<a href="https://github.com/chineseGLUE/chineseGLUE">中文任务基准测评chineseGLUE</a>
 
 <img src="https://github.com/brightmart/albert_zh/blob/master/resources/albert_tiny_compare_s.jpg"  width="90%" height="70%" />
 
@@ -29,7 +29,11 @@ Different version of ALBERT pre-trained model for Chinese, including TensorFlow,
     【使用场景】任务相对比较简单一些或实时性要求高的任务，如语义相似度等句子对任务、分类任务；比较难的任务如阅读理解等，可以使用其他大模型。
 
      例如，可以使用[Tensorflow Lite](https://www.tensorflow.org/lite)在移动端进行部署，本文[随后](#use_tflite)针对这一点进行了介绍，包括如何把模型转换成Tensorflow Lite格式和对其进行性能测试等。
-
+     
+     一键运行albert_tiny_zh(linux,lcqmc任务)：
+     1) git clone https://github.com/brightmart/albert_zh
+     2) cd albert_zh
+     3) bash run_classifier_lcqmc.sh
 1.1、<a href="https://storage.googleapis.com/albert_zh/albert_tiny_zh_google.zip">albert_tiny_google_zh(累积学习10亿个样本,google版本)</a>，模型大小16M、性能与albert_tiny_zh一致
 
 1.2、<a href="https://storage.googleapis.com/albert_zh/albert_small_zh_google.zip">albert_small_google_zh(累积学习10亿个样本,google版本)</a>，
