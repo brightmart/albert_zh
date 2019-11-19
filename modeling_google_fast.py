@@ -323,6 +323,8 @@ def get_activation(activation_string):
     return gelu
   elif act == "tanh":
     return tf.tanh
+  elif act == "swish":
+    return lambda x: x * tf.sigmoid(x)
   else:
     raise ValueError("Unsupported activation: %s" % act)
 
@@ -665,8 +667,58 @@ def dense_layer_3d_proj(input_tensor,
   else:
     return ret
 
-
 def dense_layer_2d(input_tensor,
+                   output_size,
+                   initializer,
+                   activation,
+                   num_attention_heads=1,
+                   name=None,
+                   num_groups=1):
+  """A dense layer with 2D kernel.
+  Args:
+    input_tensor: Float tensor with rank 3.
+    output_size: The size of output dimension.
+    initializer: Kernel initializer.
+    activation: Activation function.
+    num_groups: number of groups in dense layer
+    num_attention_heads: number of attention head in attention layer.
+    name: The name scope of this layer.
+  Returns:
+    float logits Tensor.
+  """
+  del num_attention_heads  # unused
+  input_shape = get_shape_list(input_tensor)
+  hidden_size = input_shape[2]
+  if num_groups == 1:
+    with tf.variable_scope(name):
+      w = tf.get_variable(
+          name="kernel",
+          shape=[hidden_size, output_size],
+          initializer=initializer)
+      b = tf.get_variable(
+          name="bias", shape=[output_size], initializer=tf.zeros_initializer)
+      ret = tf.einsum("BFH,HO->BFO", input_tensor, w)
+      ret += b
+  else:
+    assert hidden_size % num_groups == 0
+    assert output_size % num_groups == 0
+    with tf.variable_scope(name):
+      w = tf.get_variable(
+          name="kernel",
+          shape=[hidden_size//num_groups, output_size//num_groups, num_groups],
+          initializer=initializer)
+      b = tf.get_variable(
+          name="bias", shape=[output_size], initializer=tf.zeros_initializer)
+      input_tensor = tf.reshape(input_tensor, input_shape[:2] + [hidden_size//num_groups, num_groups])
+      ret = tf.einsum("BFHG,HOG->BFGO", input_tensor, w)
+      ret = tf.reshape(ret, input_shape[:2] + [output_size])
+      ret += b
+  if activation is not None:
+    return activation(ret)
+  else:
+    return ret
+
+def dense_layer_2d_old(input_tensor,
                    output_size,
                    initializer,
                    activation,
