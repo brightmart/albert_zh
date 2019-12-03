@@ -54,6 +54,96 @@ Different version of ALBERT pre-trained model for Chinese, including TensorFlow,
    
     参数量和模型大小为bert_base的二分之一；需要一张大的显卡；完整测试对比将后续添加；batch_size不能太小，否则可能影响精度
 
+
+预训练 Pre-training
+-----------------------------------------------
+
+#### 生成特定格式的文件(tfrecords) Generate tfrecords Files
+
+Run following command 运行以下命令即可。项目自动了一个示例的文本文件(data/news_zh_1.txt)
+   
+       bash create_pretrain_data.sh
+   
+如果你有很多文本文件，可以通过传入参数的方式，生成多个特定格式的文件(tfrecords）
+
+###### Support English and Other Non-Chinese Language: 
+    If you are doing pre-train for english or other language,which is not chinese, 
+    you should set hyperparameter of non_chinese to True on create_pretraining_data.py; 
+    otherwise, by default it is doing chinese pre-train using whole word mask of chinese.
+
+#### 执行预训练 pre-training on GPU/TPU using the command
+    GPU(brightmart版, tiny模型):
+    export BERT_BASE_DIR=./albert_tiny_zh
+    nohup python3 run_pretraining.py --input_file=./data/tf*.tfrecord  \
+    --output_dir=./my_new_model_path --do_train=True --do_eval=True --bert_config_file=$BERT_BASE_DIR/albert_config_tiny.json \
+    --train_batch_size=4096 --max_seq_length=512 --max_predictions_per_seq=51 \
+    --num_train_steps=125000 --num_warmup_steps=12500 --learning_rate=0.00176    \
+    --save_checkpoints_steps=2000  --init_checkpoint=$BERT_BASE_DIR/albert_model.ckpt &
+    
+    GPU(Google版本, small模型):
+    export BERT_BASE_DIR=./albert_small_zh_google
+    nohup python3 run_pretraining_google.py --input_file=./data/tf*.tfrecord --eval_batch_size=64 \
+    --output_dir=./my_new_model_path --do_train=True --do_eval=True --albert_config_file=$BERT_BASE_DIR/albert_config_small_google.json  --export_dir=./my_new_model_path_export \
+    --train_batch_size=4096 --max_seq_length=512 --max_predictions_per_seq=20 \
+    --num_train_steps=125000 --num_warmup_steps=12500 --learning_rate=0.00176   \
+    --save_checkpoints_steps=2000 --init_checkpoint=$BERT_BASE_DIR/albert_model.ckpt
+    
+    TPU, add something like this:
+        --use_tpu=True  --tpu_name=grpc://10.240.1.66:8470 --tpu_zone=us-central1-a
+        
+    注：如果你重头开始训练，可以不指定init_checkpoint；
+    如果你从现有的模型基础上训练，指定一下BERT_BASE_DIR的路径，并确保bert_config_file和init_checkpoint两个参数的值能对应到相应的文件上；
+    领域上的预训练，根据数据的大小，可以不用训练特别久。
+
+环境 Environment
+-----------------------------------------------
+Use Python3 + Tensorflow 1.x 
+
+e.g. Tensorflow 1.4 or 1.5
+
+
+下游任务 Fine-tuning on Downstream Task
+-----------------------------------------------
+##### 使用TensorFlow:
+
+以使用albert_base做LCQMC任务为例。LCQMC任务是在口语化描述的数据集上做文本的相似性预测。
+
+We will use LCQMC dataset for fine-tuning, it is oral language corpus, it is used to train and predict semantic similarity of a pair of sentences.
+
+下载<a href="https://drive.google.com/open?id=1HXYMqsXjmA5uIfu_SFqP7r_vZZG-m_H0">LCQMC</a>数据集，包含训练、验证和测试集，训练集包含24万口语化描述的中文句子对，标签为1或0。1为句子语义相似，0为语义不相似。
+
+通过运行下列命令做LCQMC数据集上的fine-tuning:
+    
+    1. Clone this project:
+          
+          git clone https://github.com/brightmart/albert_zh.git
+          
+    2. Fine-tuning by running the following command.
+        brightmart版本的tiny模型
+        export BERT_BASE_DIR=./albert_tiny_zh
+        export TEXT_DIR=./lcqmc
+        nohup python3 run_classifier.py   --task_name=lcqmc_pair   --do_train=true   --do_eval=true   --data_dir=$TEXT_DIR   --vocab_file=./albert_config/vocab.txt  \
+        --bert_config_file=./albert_config/albert_config_tiny.json --max_seq_length=128 --train_batch_size=64   --learning_rate=1e-4  --num_train_epochs=5 \
+        --output_dir=./albert_lcqmc_checkpoints --init_checkpoint=$BERT_BASE_DIR/albert_model.ckpt &
+        
+        google版本的small模型
+        export BERT_BASE_DIR=./albert_small_zh
+        export TEXT_DIR=./lcqmc
+        nohup python3 run_classifier_sp_google.py --task_name=lcqmc_pair   --do_train=true   --do_eval=true   --data_dir=$TEXT_DIR   --vocab_file=./albert_config/vocab.txt  \
+        --albert_config_file=./$BERT_BASE_DIR/albert_config_small_google.json --max_seq_length=128 --train_batch_size=64   --learning_rate=1e-4   --num_train_epochs=5 \
+        --output_dir=./albert_lcqmc_checkpoints --init_checkpoint=$BERT_BASE_DIR/albert_model.ckpt &
+
+    Notice/注：
+        1) you need to download pre-trained chinese albert model, and also download LCQMC dataset 
+        你需要下载预训练的模型，并放入到项目当前项目，假设目录名称为albert_tiny_zh; 需要下载LCQMC数据集，并放入到当前项目，
+        假设数据集目录名称为lcqmc
+
+        2) for Fine-tuning, you can try to add small percentage of dropout(e.g. 0.1) by changing parameters of 
+          attention_probs_dropout_prob & hidden_dropout_prob on albert_config_xxx.json. By default, we set dropout as zero. 
+        
+        3) you can try different learning rate {2e-5, 6e-5, 1e-4} for better performance 
+
+
 Updates
 -----------------------------------------------
 **\*\*\*\*\* 2019-11-03: add google version of albert_small, albert_tiny; 
@@ -230,87 +320,6 @@ ALBERT模型是BERT的改进版，与最近其他State of the art的模型不同
 通过运行以下命令测试主要的改进点，包括但不限于词嵌入向量参数的因式分解、跨层参数共享、段落连续性任务等。
 
     python test_changes.py
-
-预训练 Pre-training
------------------------------------------------
-
-#### 生成特定格式的文件(tfrecords) Generate tfrecords Files
-
-Run following command 运行以下命令即可。项目自动了一个示例的文本文件(data/news_zh_1.txt)
-   
-       bash create_pretrain_data.sh
-   
-如果你有很多文本文件，可以通过传入参数的方式，生成多个特定格式的文件(tfrecords）
-
-###### Support English and Other Non-Chinese Language: 
-    If you are doing pre-train for english or other language,which is not chinese, 
-    you should set hyperparameter of non_chinese to True on create_pretraining_data.py; 
-    otherwise, by default it is doing chinese pre-train using whole word mask of chinese.
-
-#### 执行预训练 pre-training on GPU/TPU using the command
-    GPU(brightmart版, tiny模型):
-    export BERT_BASE_DIR=./albert_tiny_zh
-    nohup python3 run_pretraining.py --input_file=./data/tf*.tfrecord  \
-    --output_dir=./my_new_model_path --do_train=True --do_eval=True --bert_config_file=$BERT_BASE_DIR/albert_config_tiny.json \
-    --train_batch_size=4096 --max_seq_length=512 --max_predictions_per_seq=51 \
-    --num_train_steps=125000 --num_warmup_steps=12500 --learning_rate=0.00176    \
-    --save_checkpoints_steps=2000  --init_checkpoint=$BERT_BASE_DIR/albert_model.ckpt &
-    
-    GPU(Google版本, small模型):
-    export BERT_BASE_DIR=./albert_small_zh_google
-    nohup python3 run_pretraining_google.py --input_file=./data/tf*.tfrecord --eval_batch_size=64 \
-    --output_dir=./my_new_model_path --do_train=True --do_eval=True --albert_config_file=$BERT_BASE_DIR/albert_config_small_google.json  --export_dir=./my_new_model_path_export \
-    --train_batch_size=4096 --max_seq_length=512 --max_predictions_per_seq=20 \
-    --num_train_steps=125000 --num_warmup_steps=12500 --learning_rate=0.00176   \
-    --save_checkpoints_steps=2000 --init_checkpoint=$BERT_BASE_DIR/albert_model.ckpt
-    
-    TPU, add something like this:
-        --use_tpu=True  --tpu_name=grpc://10.240.1.66:8470 --tpu_zone=us-central1-a
-        
-    注：如果你重头开始训练，可以不指定init_checkpoint；
-    如果你从现有的模型基础上训练，指定一下BERT_BASE_DIR的路径，并确保bert_config_file和init_checkpoint两个参数的值能对应到相应的文件上；
-    领域上的预训练，根据数据的大小，可以不用训练特别久。
-
-下游任务 Fine-tuning on Downstream Task
------------------------------------------------
-##### 使用TensorFlow:
-
-以使用albert_base做LCQMC任务为例。LCQMC任务是在口语化描述的数据集上做文本的相似性预测。
-
-We will use LCQMC dataset for fine-tuning, it is oral language corpus, it is used to train and predict semantic similarity of a pair of sentences.
-
-下载<a href="https://drive.google.com/open?id=1HXYMqsXjmA5uIfu_SFqP7r_vZZG-m_H0">LCQMC</a>数据集，包含训练、验证和测试集，训练集包含24万口语化描述的中文句子对，标签为1或0。1为句子语义相似，0为语义不相似。
-
-通过运行下列命令做LCQMC数据集上的fine-tuning:
-    
-    1. Clone this project:
-          
-          git clone https://github.com/brightmart/albert_zh.git
-          
-    2. Fine-tuning by running the following command.
-        brightmart版本的tiny模型
-        export BERT_BASE_DIR=./albert_tiny_zh
-        export TEXT_DIR=./lcqmc
-        nohup python3 run_classifier.py   --task_name=lcqmc_pair   --do_train=true   --do_eval=true   --data_dir=$TEXT_DIR   --vocab_file=./albert_config/vocab.txt  \
-        --bert_config_file=./albert_config/albert_config_tiny.json --max_seq_length=128 --train_batch_size=64   --learning_rate=1e-4  --num_train_epochs=5 \
-        --output_dir=./albert_lcqmc_checkpoints --init_checkpoint=$BERT_BASE_DIR/albert_model.ckpt &
-        
-        google版本的small模型
-        export BERT_BASE_DIR=./albert_small_zh
-        export TEXT_DIR=./lcqmc
-        nohup python3 run_classifier_sp_google.py --task_name=lcqmc_pair   --do_train=true   --do_eval=true   --data_dir=$TEXT_DIR   --vocab_file=./albert_config/vocab.txt  \
-        --albert_config_file=./$BERT_BASE_DIR/albert_config_small_google.json --max_seq_length=128 --train_batch_size=64   --learning_rate=1e-4   --num_train_epochs=5 \
-        --output_dir=./albert_lcqmc_checkpoints --init_checkpoint=$BERT_BASE_DIR/albert_model.ckpt &
-
-    Notice/注：
-        1) you need to download pre-trained chinese albert model, and also download LCQMC dataset 
-        你需要下载预训练的模型，并放入到项目当前项目，假设目录名称为albert_tiny_zh; 需要下载LCQMC数据集，并放入到当前项目，
-        假设数据集目录名称为lcqmc
-
-        2) for Fine-tuning, you can try to add small percentage of dropout(e.g. 0.1) by changing parameters of 
-          attention_probs_dropout_prob & hidden_dropout_prob on albert_config_xxx.json. By default, we set dropout as zero. 
-        
-        3) you can try different learning rate {2e-5, 6e-5, 1e-4} for better performance 
 
 ##### <a name="use_tflite"></a>使用TensorFlow Lite(TFLite)在移动端进行部署:
 这里我们主要介绍TFLite模型格式转换和性能测试。转换成TFLite模型后，对于如何在移
