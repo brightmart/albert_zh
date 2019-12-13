@@ -11,7 +11,7 @@ Different version of ALBERT pre-trained model for Chinese, including TensorFlow,
 
 海量中文语料上预训练ALBERT模型：参数更少，效果更好。预训练小模型也能拿下13项NLP任务，ALBERT三大改造登顶GLUE基准
 
-一键运行10个数据集、9个基线模型、不同任务上模型效果的详细对比，见<a href="https://github.com/chineseGLUE/chineseGLUE">中文任务基准测评chineseGLUE</a>
+一键运行10个数据集、9个基线模型、不同任务上模型效果的详细对比，见<a href="https://github.com/CLUEbenchmark/CLUE">中文任务基准测评 CLUE benchmark</a>
 
 <img src="https://github.com/brightmart/albert_zh/blob/master/resources/albert_tiny_compare_s.jpg"  width="90%" height="70%" />
 
