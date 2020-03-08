@@ -57,9 +57,6 @@ Different version of ALBERT pre-trained model for Chinese, including TensorFlow,
 ### 快速加载
 依托于[Huggingface-Transformers 2.2.2](https://github.com/huggingface/transformers)，可轻松调用以上模型。
 ```
-tokenizer = BertTokenizer.from_pretrained("MODEL_NAME")
-model = BertModel.from_pretrained("MODEL_NAME")
-
 tokenizer = AutoTokenizer.from_pretrained("MODEL_NAME")
 model = AutoModel.from_pretrained("MODEL_NAME")
 ```
@@ -70,10 +67,10 @@ model = AutoModel.from_pretrained("MODEL_NAME")
 | - | - |
 | albert_tiny_google_zh | voidful/albert_chinese_tiny |
 | albert_small_google_zh | voidful/albert_chinese_small  |
-| albert_base_zh(from google) | voidful/albert_chinese_base   |
-| albert_large_zh(from google) | voidful/albert_chinese_large   |
-| albert_xlarge_zh(from google) | voidful/albert_chinese_xlarge   |
-| albert_xxlarge_zh(from google) | voidful/albert_chinese_xxlarge   |
+| albert_base_zh (from google) | voidful/albert_chinese_base   |
+| albert_large_zh (from google) | voidful/albert_chinese_large   |
+| albert_xlarge_zh (from google) | voidful/albert_chinese_xlarge   |
+| albert_xxlarge_zh (from google) | voidful/albert_chinese_xxlarge   |
 
 更多通过transformers使用albert的<a href='https://huggingface.co/models?search=albert_chinese'>示例</a>
 
