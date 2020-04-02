@@ -163,6 +163,16 @@ We will use LCQMC dataset for fine-tuning, it is oral language corpus, it is use
         3) you can try different learning rate {2e-5, 6e-5, 1e-4} for better performance 
 
 
+一键运行CLUE数据集
+---------------------------------------------------------------------
+    使用方式：
+    1、克隆项目
+       git clone https://github.com/brightmart/albert_zh.git
+    2、运行一键运行脚本(GPU方式): 会自动下载模型和所有任务数据并开始运行。
+       bash run_classifier_clue.sh
+       执行该一键运行脚本将会自动下载所有任务数据，并为所有任务找到最优模型，然后测试得到提交结果
+
+
 Updates
 -----------------------------------------------
 **\*\*\*\*\* 2019-11-03: add google version of albert_small, albert_tiny; 
