@@ -16,6 +16,16 @@ Different version of ALBERT pre-trained model for Chinese, including TensorFlow,
 <img src="https://github.com/brightmart/albert_zh/blob/master/resources/albert_tiny_compare_s.jpg"  width="90%" height="70%" />
 
 
+一键运行CLUE中文任务：6个中文分类或句子对任务（新）
+---------------------------------------------------------------------
+    使用方式：
+    1、克隆项目
+       git clone https://github.com/brightmart/albert_zh.git
+    2、运行一键运行脚本(GPU方式): 会自动下载模型和所有任务数据并开始运行。
+       bash run_classifier_clue.sh
+       执行该一键运行脚本将会自动下载所有任务数据，并为所有任务找到最优模型，然后测试得到提交结果
+    
+
 模型下载 Download Pre-trained Models of Chinese
 -----------------------------------------------
 1、<a href="https://storage.googleapis.com/albert_zh/albert_tiny.zip">albert_tiny_zh</a>, <a href="https://storage.googleapis.com/albert_zh/albert_tiny_489k.zip">albert_tiny_zh(训练更久，累积学习20亿个样本)</a>，文件大小16M、参数为4M
@@ -161,16 +171,6 @@ We will use LCQMC dataset for fine-tuning, it is oral language corpus, it is use
           attention_probs_dropout_prob & hidden_dropout_prob on albert_config_xxx.json. By default, we set dropout as zero. 
         
         3) you can try different learning rate {2e-5, 6e-5, 1e-4} for better performance 
-
-
-一键运行CLUE数据集
----------------------------------------------------------------------
-    使用方式：
-    1、克隆项目
-       git clone https://github.com/brightmart/albert_zh.git
-    2、运行一键运行脚本(GPU方式): 会自动下载模型和所有任务数据并开始运行。
-       bash run_classifier_clue.sh
-       执行该一键运行脚本将会自动下载所有任务数据，并为所有任务找到最优模型，然后测试得到提交结果
 
 
 Updates
