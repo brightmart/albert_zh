@@ -126,9 +126,9 @@ Run following command 运行以下命令即可。项目自动了一个示例的�
 
 环境 Environment
 -----------------------------------------------
-Use Python3 + Tensorflow 1.x 
+Use Python3 + Tensorflow 1.1x 
 
-e.g. Tensorflow 1.4 or 1.5
+e.g. Tensorflow 1.14 or 1.15
 
 
 下游任务 Fine-tuning on Downstream Task
