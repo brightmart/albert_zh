@@ -11,6 +11,8 @@ Different version of ALBERT pre-trained model for Chinese, including TensorFlow,
 
 海量中文语料上预训练ALBERT模型：参数更少，效果更好。预训练小模型也能拿下13项NLP任务，ALBERT三大改造登顶GLUE基准
 
+ <a href="https://www.qclue.cn/demo">NLP自动标注工具（提效最多100X）-预约</a>
+ 
 一键运行10个数据集、9个基线模型、不同任务上模型效果的详细对比，见<a href="http://www.CLUEbenchmarks.com">中文语言理解基准测评 CLUE benchmark</a>
 
 <img src="https://github.com/brightmart/albert_zh/blob/master/resources/albert_tiny_compare_s.jpg"  width="90%" height="70%" />
